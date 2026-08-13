@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+.env
+calendar.json
+backtest_trades.csv
+backtest_equity.png
