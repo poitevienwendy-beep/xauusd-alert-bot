@@ -3,7 +3,15 @@ name: XAU/USD Alert Bot
 on:
   schedule:
     - cron: "*/5 * * * *"
-  workflow_dispatch: {}
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "once = normal alert check · test-telegram = send one confirmation message to verify delivery"
+        type: choice
+        default: "once"
+        options:
+          - once
+          - test-telegram
 
 permissions:
   contents: write
@@ -42,7 +50,7 @@ jobs:
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           CAPITAL: ${{ secrets.CAPITAL }}
           RISK_PCT: ${{ secrets.RISK_PCT }}
-        run: python bot_xauusd.py --once
+        run: python bot_xauusd.py --${{ inputs.mode || 'once' }}
 
       - name: Persist trade journal
         run: |

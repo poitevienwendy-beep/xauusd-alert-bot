@@ -328,12 +328,13 @@ def send_telegram(text: str, png: bytes | None = None) -> None:
     tok = os.environ["TELEGRAM_TOKEN"]
     chat = os.environ["TELEGRAM_CHAT_ID"]
     if png:
-        requests.post(f"https://api.telegram.org/bot{tok}/sendPhoto",
-                      data={"chat_id": chat, "caption": text[:1024]},
-                      files={"photo": ("chart.png", png)}, timeout=30)
+        r = requests.post(f"https://api.telegram.org/bot{tok}/sendPhoto",
+                          data={"chat_id": chat, "caption": text[:1024]},
+                          files={"photo": ("chart.png", png)}, timeout=30)
     else:
-        requests.post(f"https://api.telegram.org/bot{tok}/sendMessage",
-                      data={"chat_id": chat, "text": text}, timeout=30)
+        r = requests.post(f"https://api.telegram.org/bot{tok}/sendMessage",
+                          data={"chat_id": chat, "text": text}, timeout=30)
+    r.raise_for_status()  # sans ça, un token/chat_id invalide échoue en silence (alerte jamais reçue, rien dans les logs)
 
 
 def journal(row: dict, path: str = "journal.csv") -> None:
@@ -472,6 +473,15 @@ def main() -> None:
         tick()
 
 
+# ══════════════════════════ TEST TELEGRAM (avec credentials, sans données marché) ══════════════════════════
+
+def _test_telegram() -> None:
+    """Envoie un message de confirmation unique — vérifie juste que TELEGRAM_TOKEN/CHAT_ID
+    sont valides, sans attendre un vrai signal actionnable (qui peut rester NEUTRE longtemps)."""
+    send_telegram("✅ Test bot XAU/USD — connexion Telegram OK.")
+    print("Message de test envoyé — vérifie ton Telegram.")
+
+
 # ══════════════════════════ AUTOTEST (sans credentials ni réseau) ══════════════════════════
 
 def _selftest() -> None:
@@ -525,6 +535,8 @@ if __name__ == "__main__":
     import sys
     if "--selftest" in sys.argv:
         _selftest()
+    elif "--test-telegram" in sys.argv:
+        _test_telegram()
     elif "--once" in sys.argv:
         tick()  # un seul passage puis sortie — pour un scheduler externe (GitHub Actions)
     else:
