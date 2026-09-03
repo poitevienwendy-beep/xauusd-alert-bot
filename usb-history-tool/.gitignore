@@ -1,0 +1,9 @@
+# Exports produits par l'outil
+historique-*.csv
+historique-*.json
+histo.csv
+histo.json
+
+# Python
+__pycache__/
+*.pyc
