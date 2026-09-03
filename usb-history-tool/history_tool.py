@@ -526,9 +526,11 @@ HTML_PAGE = r"""<!doctype html>
   .btn:disabled { opacity:.45; cursor:not-allowed; }
   .toolbar { padding:12px 20px; display:flex; gap:10px; align-items:center; flex-wrap:wrap;
              background:var(--panel); border-bottom:1px solid var(--line); position:sticky; top:52px; z-index:4; }
-  input[type=search], select { background:var(--panel2); color:var(--text); border:1px solid var(--line);
-         padding:8px 10px; border-radius:8px; font-size:13px; }
+  input[type=search], input[type=date], select { background:var(--panel2); color:var(--text);
+         border:1px solid var(--line); padding:8px 10px; border-radius:8px; font-size:13px; }
   input[type=search] { min-width:240px; flex:1; }
+  input[type=date] { color-scheme:dark; }
+  .dates { display:flex; align-items:center; gap:6px; color:var(--muted); font-size:12px; }
   .wrap { padding:0 20px 40px; }
   table { width:100%; border-collapse:collapse; margin-top:8px; }
   th, td { text-align:left; padding:9px 10px; border-bottom:1px solid var(--line); vertical-align:top; }
@@ -579,11 +581,16 @@ HTML_PAGE = r"""<!doctype html>
     <option value="title">Titre (A→Z)</option>
     <option value="url">URL (A→Z)</option>
   </select>
+  <div class="dates" title="Filtrer par plage de dates (incluse)">
+    du <input type="date" id="dfrom"> au <input type="date" id="dto">
+    <button class="btn" id="datesClear" title="Effacer les dates">✕</button>
+  </div>
   <span class="grow"></span>
   <div class="selbar">
     <label class="hint"><input type="checkbox" id="selAll"> Tout cocher (page)</label>
     <b id="selCount">0</b>
     <button class="btn danger" id="delSel" disabled>Supprimer la sélection</button>
+    <button class="btn danger" id="delFiltered">Supprimer le résultat filtré…</button>
     <button class="btn danger" id="clearAll">Tout effacer…</button>
   </div>
 </div>
@@ -616,7 +623,23 @@ HTML_PAGE = r"""<!doctype html>
 
 <script>
 const TOKEN = "__TOKEN__";
-const state = { offset:0, limit:100, total:0, search:"", src:"", sort:"ts", rows:[], selected:new Set() };
+const state = { offset:0, limit:100, total:0, search:"", src:"", sort:"ts", dfrom:"", dto:"", rows:[], selected:new Set() };
+
+// Convertit les champs date (AAAA-MM-JJ, heure locale) en secondes Unix :
+// borne basse = début de journée, borne haute = fin de journée (incluses).
+function dateBounds() {
+  const b = {};
+  if (state.dfrom) { const d = new Date(state.dfrom + "T00:00:00"); if (!isNaN(d)) b.from = Math.floor(d.getTime()/1000); }
+  if (state.dto)   { const d = new Date(state.dto   + "T23:59:59"); if (!isNaN(d)) b.to   = Math.floor(d.getTime()/1000); }
+  return b;
+}
+function filterParams(extra={}) {
+  const b = dateBounds();
+  const p = Object.assign({ search:state.search, src:state.src }, extra);
+  if (b.from != null) p.from = b.from;
+  if (b.to   != null) p.to   = b.to;
+  return p;
+}
 
 function api(path, opts={}) {
   opts.headers = Object.assign({ "X-Token": TOKEN, "Content-Type":"application/json" }, opts.headers||{});
@@ -651,8 +674,7 @@ function loadSources() {
 }
 
 function load() {
-  const q = new URLSearchParams({ offset:state.offset, limit:state.limit,
-     search:state.search, src:state.src, sort:state.sort });
+  const q = new URLSearchParams(filterParams({ offset:state.offset, limit:state.limit, sort:state.sort }));
   return api("/api/history?"+q.toString()).then(d => {
     state.total = d.total; state.rows = d.items;
     document.getElementById("count").textContent =
@@ -666,8 +688,8 @@ function render() {
   const empty = document.getElementById("emptyState");
   tb.innerHTML = "";
   if (state.total === 0) {
-    empty.innerHTML = state.search || state.src
-      ? '<div class="empty"><h2>Aucun résultat</h2><p>Essayez d\'élargir la recherche.</p></div>'
+    empty.innerHTML = state.search || state.src || state.dfrom || state.dto
+      ? '<div class="empty"><h2>Aucun résultat</h2><p>Essayez d\'élargir la recherche ou les dates.</p></div>'
       : '<div class="empty"><h2>Aucun historique détecté</h2><p>Aucun navigateur pris en charge n\'a été trouvé pour cet utilisateur.</p></div>';
     document.getElementById("pager").innerHTML = "";
     updateSel();
@@ -764,6 +786,27 @@ document.getElementById("clearAll").addEventListener("click", () => {
     })
     .catch(e => toast("Échec: "+(e.error||e.message||e), "err"));
 });
+document.getElementById("delFiltered").addEventListener("click", () => {
+  const n = state.total;
+  if (!n) { toast("Aucune entrée ne correspond au filtre courant.", ""); return; }
+  const parts = [];
+  if (state.search) parts.push("recherche « " + state.search + " »");
+  if (state.src) { const s = document.getElementById("srcFilter"); parts.push(s.options[s.selectedIndex].text.replace(/\s*\(\d+\)\s*$/, "")); }
+  if (state.dfrom || state.dto) parts.push("dates " + (state.dfrom||"…") + " → " + (state.dto||"…"));
+  const scope = parts.length ? parts.join(", ") : "AUCUN filtre (tout l'historique)";
+  if (!confirm("Supprimer définitivement les " + n + " entrée(s) correspondant au filtre :\n" + scope + "\n\nCette action est irréversible.")) return;
+  if (!confirm("Dernière confirmation : supprimer ces " + n + " entrée(s) ?")) return;
+  api("/api/delete_filtered", { method:"POST", body: JSON.stringify(filterParams()) })
+    .then(rep => {
+      let msg = (rep.deleted||0) + " entrée(s) supprimée(s) sur " + (rep.matched||0) + " correspondante(s).";
+      if (rep.locked && rep.locked.length) msg += " ⚠ Fermez d'abord : " + rep.locked.join(", ") + ".";
+      if (rep.errors && rep.errors.length) msg += " Erreur: " + rep.errors.join("; ");
+      toast(msg, (rep.locked && rep.locked.length) || (rep.errors && rep.errors.length) ? "err" : "ok");
+      state.selected.clear(); state.offset = 0;
+      return loadSources().then(load);
+    })
+    .catch(e => toast("Échec: "+(e.error||e.message||e), "err"));
+});
 
 let searchTimer;
 document.getElementById("search").addEventListener("input", ev => {
@@ -776,6 +819,13 @@ document.getElementById("srcFilter").addEventListener("change", ev => {
 document.getElementById("sort").addEventListener("change", ev => {
   state.sort = ev.target.value; state.offset = 0; load();
 });
+document.getElementById("dfrom").addEventListener("change", ev => { state.dfrom = ev.target.value; state.offset = 0; load(); });
+document.getElementById("dto").addEventListener("change", ev => { state.dto = ev.target.value; state.offset = 0; load(); });
+document.getElementById("datesClear").addEventListener("click", () => {
+  state.dfrom = ""; state.dto = "";
+  document.getElementById("dfrom").value = ""; document.getElementById("dto").value = "";
+  state.offset = 0; load();
+});
 document.querySelectorAll("th[data-sort]").forEach(th => th.addEventListener("click", () => {
   const s = th.dataset.sort;
   state.sort = (s === "ts") ? (state.sort === "ts" ? "ts_asc" : "ts") : s;
@@ -783,8 +833,8 @@ document.querySelectorAll("th[data-sort]").forEach(th => th.addEventListener("cl
   state.offset = 0; load();
 }));
 document.getElementById("refresh").addEventListener("click", () => loadSources().then(load));
-document.getElementById("exportCsv").addEventListener("click", () => window.location = "/api/export?format=csv&token="+encodeURIComponent(TOKEN));
-document.getElementById("exportJson").addEventListener("click", () => window.location = "/api/export?format=json&token="+encodeURIComponent(TOKEN));
+document.getElementById("exportCsv").addEventListener("click", () => window.location = "/api/export?" + new URLSearchParams(filterParams({format:"csv", token:TOKEN})).toString());
+document.getElementById("exportJson").addEventListener("click", () => window.location = "/api/export?" + new URLSearchParams(filterParams({format:"json", token:TOKEN})).toString());
 
 loadSources().then(load);
 </script>
@@ -798,6 +848,14 @@ def _matches(entry: dict, terms: "list[str]", browser: str, profile: str) -> boo
         return True
     haystack = (entry["title"] + " " + entry["url"] + " " + browser + " " + profile).lower()
     return all(term in haystack for term in terms)
+
+
+def _to_float(value):
+    """Convertit en float (borne de date), ou None si vide/invalide."""
+    try:
+        return float(value)
+    except (TypeError, ValueError):
+        return None
 
 
 class HistoryServer:
@@ -840,24 +898,35 @@ class HistoryServer:
             )
         return {"sources": out, "total": len(entries), "errors": []}
 
-    def query(self, search: str, src: str, sort: str, offset: int, limit: int) -> dict:
-        entries = self.entries()
+    def _select(self, search: str, src: str, dfrom, dto) -> "list[dict]":
+        """Filtre les entrees par recherche multi-mots, source et plage de
+        dates (bornes en secondes Unix, incluses). Base commune a l'affichage
+        et a la suppression du resultat filtre."""
         terms = [t for t in (search or "").lower().split() if t]
         src_id = None
         if src not in ("", None):
             try:
                 src_id = int(src)
-            except ValueError:
+            except (ValueError, TypeError):
                 src_id = None
 
-        filtered = []
-        for e in entries:
-            source = self.sources_by_id.get(e["src"], {})
+        selected = []
+        for e in self.entries():
             if src_id is not None and e["src"] != src_id:
                 continue
+            if dfrom is not None and e["ts"] < dfrom:
+                continue
+            if dto is not None and e["ts"] > dto:
+                continue
+            source = self.sources_by_id.get(e["src"], {})
             if not _matches(e, terms, source.get("browser", ""), source.get("profile", "")):
                 continue
-            filtered.append(e)
+            selected.append(e)
+        return selected
+
+    def query(self, search: str, src: str, sort: str, offset: int, limit: int,
+              dfrom=None, dto=None) -> dict:
+        filtered = self._select(search, src, dfrom, dto)
 
         reverse = True
         if sort == "ts_asc":
@@ -890,6 +959,15 @@ class HistoryServer:
                 }
             )
         return {"total": total, "offset": offset, "limit": limit, "items": items}
+
+    def matching_items(self, search: str, src: str, dfrom, dto) -> "list[dict]":
+        """Renvoie [{src, rowid}] pour TOUTES les entrees correspondant aux
+        filtres courants (recherche + source + plage de dates). Sert a la
+        suppression du resultat filtre, au-dela de la seule page affichee."""
+        return [
+            {"src": e["src"], "rowid": e["rowid"]}
+            for e in self._select(search, src, dfrom, dto)
+        ]
 
 
 def make_handler(server: HistoryServer):
@@ -979,6 +1057,8 @@ def make_handler(server: HistoryServer):
                     (params.get("sort") or ["ts"])[0],
                     offset,
                     limit,
+                    _to_float((params.get("from") or [None])[0]),
+                    _to_float((params.get("to") or [None])[0]),
                 )
                 self._send_json(result)
                 return
@@ -988,7 +1068,13 @@ def make_handler(server: HistoryServer):
                     self._send_json({"error": "jeton invalide"}, 403)
                     return
                 fmt = (params.get("format") or ["csv"])[0]
-                text = export_entries(app.entries(), app.sources_by_id, fmt)
+                selection = app._select(
+                    (params.get("search") or [""])[0],
+                    (params.get("src") or [""])[0],
+                    _to_float((params.get("from") or [None])[0]),
+                    _to_float((params.get("to") or [None])[0]),
+                )
+                text = export_entries(selection, app.sources_by_id, fmt)
                 ext = "json" if fmt == "json" else "csv"
                 ctype = "application/json" if fmt == "json" else "text/csv"
                 stamp = datetime.now().strftime("%Y%m%d-%H%M%S")
@@ -1014,6 +1100,19 @@ def make_handler(server: HistoryServer):
             if path == "/api/delete":
                 items = data.get("items") or []
                 report = delete_items(app.sources_by_id, items)
+                app.invalidate()
+                self._send_json(report)
+                return
+
+            if path == "/api/delete_filtered":
+                items = app.matching_items(
+                    data.get("search", ""),
+                    data.get("src", ""),
+                    _to_float(data.get("from")),
+                    _to_float(data.get("to")),
+                )
+                report = delete_items(app.sources_by_id, items)
+                report["matched"] = len(items)
                 app.invalidate()
                 self._send_json(report)
                 return

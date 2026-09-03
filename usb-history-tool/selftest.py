@@ -134,6 +134,22 @@ def main():
     q3 = srv.query(search="", src="", sort="visits", offset=0, limit=10)
     check("tri par nombre de visites", q3["items"][0]["visits"] == 7)
 
+    # Plage de dates (bornes en secondes Unix, incluses)
+    qd = srv.query(search="", src="", sort="ts", offset=0, limit=10, dfrom=150, dto=None)
+    check("filtre date : borne basse", qd["total"] == 1 and qd["items"][0]["rowid"] == 8)
+    qd2 = srv.query(search="", src="", sort="ts", offset=0, limit=10, dfrom=None, dto=150)
+    check("filtre date : borne haute", qd2["total"] == 1 and qd2["items"][0]["rowid"] == 9)
+    qd3 = srv.query(search="", src="", sort="ts", offset=0, limit=10, dfrom=50, dto=250)
+    check("filtre date : intervalle englobant", qd3["total"] == 2)
+
+    # Suppression du résultat filtré : liste des cibles
+    mi = srv.matching_items(search="", src="", dfrom=150, dto=None)
+    check("matching_items respecte la plage de dates", mi == [{"src": 1, "rowid": 8}])
+    mi_src = srv.matching_items(search="", src="0", dfrom=None, dto=None)
+    check("matching_items respecte la source", mi_src == [{"src": 0, "rowid": 9}])
+    mi_all = srv.matching_items(search="", src="", dfrom=None, dto=None)
+    check("matching_items sans filtre = tout", len(mi_all) == 2)
+
     # nettoyage
     import shutil
     shutil.rmtree(workdir, ignore_errors=True)

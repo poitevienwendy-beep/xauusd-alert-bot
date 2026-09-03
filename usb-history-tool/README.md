@@ -79,6 +79,8 @@ python3 history_tool.py
 - **Rechercher** : tapez un mot ; plusieurs mots = « ET » (toutes les entrées
   qui contiennent tous les mots).
 - **Filtrer** : choisissez un navigateur / profil précis dans la liste.
+- **Filtrer par dates** : les champs **« du … au … »** limitent l'affichage à
+  une plage de dates (bornes incluses). Le bouton `✕` à côté remet à zéro.
 - **Trier** : par date, nombre de visites, titre ou URL (les en-têtes de
   colonnes sont cliquables).
 - **Naviguer** : cliquez sur un titre pour ouvrir la page dans votre
@@ -86,10 +88,17 @@ python3 history_tool.py
 - **Supprimer une entrée** : le bouton `✕` à droite de la ligne.
 - **Supprimer une sélection** : cochez les cases, puis
   **« Supprimer la sélection »**.
+- **Supprimer le résultat filtré** : bouton **« Supprimer le résultat filtré… »**
+  (double confirmation). Efface **toutes** les entrées qui correspondent aux
+  filtres actifs — recherche + navigateur/profil + plage de dates — et pas
+  seulement la page affichée. Idéal pour « effacer tout ce qui vient de tel
+  site » ou « effacer la semaine dernière » d'un coup, sur tous les navigateurs.
 - **Tout effacer** : bouton **« Tout effacer… »** (avec double confirmation).
   Si un profil précis est filtré, seul cet historique est effacé ; sinon,
   c'est celui de **tous** les navigateurs.
 - **Exporter** : boutons **Export CSV** / **Export JSON** en haut à droite.
+  L'export respecte les filtres actifs (recherche, navigateur/profil, dates) :
+  vous exportez donc exactement ce que vous voyez.
 
 ## 4. Mode terminal (facultatif)
 
