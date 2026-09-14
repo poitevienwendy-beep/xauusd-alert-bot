@@ -1,0 +1,14 @@
+{
+  "width": 1024,
+  "height": 1024,
+  "steps": 30,
+  "guidance": 7.0,
+  "seed": 42,
+  "negative": "",
+  "reference_max_edge": 768,
+  "offload": "sequential",
+  "quantize": "none",
+  "max_reference_images": 3,
+  "max_output_pixels": 1048576,
+  "blocked_prompt_terms": []
+}
