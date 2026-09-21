@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Schéma musculaire</title>
+<link rel="stylesheet" href="muscle-map.css">
+<style>
+  :root {
+    --bg: #f6f7f9; --card: #fff; --ink: #1b2330; --muted: #6b7686;
+    --line: #e3e7ee; --accent: #f4705a; --radius: 14px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #12161d; --card: #1a202a; --ink: #e8ecf3; --muted: #97a3b5; --line: #2a3340;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #12161d; --card: #1a202a; --ink: #e8ecf3; --muted: #97a3b5; --line: #2a3340;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 24px 16px 48px; background: var(--bg); color: var(--ink);
+    font: 15px/1.55 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  .wrap { max-width: 900px; margin: 0 auto; }
+  header { text-align: center; margin-bottom: 22px; }
+  h1 { font-size: 1.45rem; margin: 0 0 6px; letter-spacing: -.01em; }
+  header p { margin: 0; color: var(--muted); font-size: .92rem; }
+
+  .card {
+    background: var(--card); border: 1px solid var(--line);
+    border-radius: var(--radius); padding: 18px; margin-bottom: 16px;
+  }
+  .row { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+  .row + .row { margin-top: 10px; }
+
+  button {
+    font: inherit; font-size: .88rem; color: var(--ink); background: var(--card);
+    border: 1px solid var(--line); border-radius: 999px; padding: 7px 14px;
+    cursor: pointer; transition: border-color .15s, background .15s, color .15s;
+  }
+  button:hover { border-color: var(--accent); }
+  button[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: #fff; }
+  button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  #figure { margin: 6px 0 2px; }
+
+  .legend { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;
+            color: var(--muted); font-size: .84rem; margin-top: 12px; }
+  .legend span { display: inline-flex; align-items: center; gap: 7px; }
+  .dot { width: 13px; height: 13px; border-radius: 4px; display: inline-block; }
+  .dot.l1 { background: linear-gradient(#ffdcc6, #ffbb98); }
+  .dot.l2 { background: linear-gradient(#ff9c84, #f4705a); }
+  .dot.l3 { background: linear-gradient(#ef5146, #cf2733); }
+  .dot.l0 { background: linear-gradient(#fdfefe, #e6ebf2); border: 1px solid var(--line); }
+
+  h2 { font-size: .78rem; text-transform: uppercase; letter-spacing: .08em;
+       color: var(--muted); margin: 0 0 10px; text-align: center; font-weight: 600; }
+  #readout { text-align: center; color: var(--muted); font-size: .86rem;
+             min-height: 1.4em; margin-top: 10px; }
+  #readout b { color: var(--ink); font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>Schéma musculaire</h1>
+    <p>Clique sur un muscle, ou choisis un exercice.</p>
+  </header>
+
+  <div class="card">
+    <div class="row" id="views"></div>
+    <div id="figure"></div>
+    <div class="legend">
+      <span><i class="dot l0"></i> Repos</span>
+      <span><i class="dot l1"></i> Stabilisateur</span>
+      <span><i class="dot l2"></i> Synergiste</span>
+      <span><i class="dot l3"></i> Principal</span>
+    </div>
+    <p id="readout"></p>
+  </div>
+
+  <div class="card">
+    <h2>Exercices</h2>
+    <div class="row" id="presets"></div>
+    <div class="row" style="margin-top:14px">
+      <button id="reset">Tout effacer</button>
+      <button id="theme">Thème sombre</button>
+    </div>
+  </div>
+
+</div>
+
+<script src="assets/figures.js"></script>
+<script src="muscle-map.js"></script>
+<script>
+  var PRESETS = [
+    { name: 'Développé couché', view: 'front',
+      levels: { chest: 3, shoulders: 2, triceps: 2, abs: 1 } },
+    { name: 'Tractions', view: 'back',
+      levels: { lats: 3, biceps: 2, rhomboids: 2, upper_back: 2, forearms: 1, traps: 1 } },
+    { name: 'Squat', view: 'front',
+      levels: { quads: 3, glutes: 3, adductors: 2, hamstrings: 2, lower_back: 1, abs: 1 } },
+    { name: 'Soulevé de terre', view: 'back',
+      levels: { hamstrings: 3, glutes: 3, lower_back: 3, traps: 2, lats: 2, forearms: 2, quads: 1 } },
+    { name: 'Développé militaire', view: 'front',
+      levels: { shoulders: 3, triceps: 2, traps: 2, abs: 1 } },
+    { name: 'Rowing', view: 'back',
+      levels: { lats: 3, rhomboids: 3, upper_back: 2, biceps: 2, lower_back: 1 } }
+  ];
+
+  var map = MuscleMap.mount('#figure', {
+    view: 'both',
+    cycle: [0, 3, 2, 1],
+    onSelect: function (e) {
+      var words = ['au repos', 'stabilisateur', 'synergiste', 'principal'];
+      say('<b>' + e.label + '</b> — ' + words[e.level]);
+    }
+  });
+
+  var readout = document.getElementById('readout');
+  function say(html) { readout.innerHTML = html; }
+
+  // Sélecteur de vue
+  var views = [['both', 'Face + dos'], ['front', 'Face'], ['back', 'Dos']];
+  var viewRow = document.getElementById('views');
+  views.forEach(function (v) {
+    var b = document.createElement('button');
+    b.textContent = v[1];
+    b.onclick = function () { map.setView(v[0]); syncViews(); };
+    viewRow.appendChild(b);
+  });
+  function syncViews() {
+    Array.prototype.forEach.call(viewRow.children, function (b, i) {
+      b.setAttribute('aria-pressed', String(views[i][0] === map.getView()));
+    });
+  }
+  syncViews();
+
+  // Exercices
+  var presetRow = document.getElementById('presets');
+  PRESETS.forEach(function (p) {
+    var b = document.createElement('button');
+    b.textContent = p.name;
+    b.onclick = function () {
+      map.setView(p.view === map.getView() ? map.getView() : 'both');
+      map.set(p.levels);
+      syncViews();
+      syncPresets(p.name);
+      say('<b>' + p.name + '</b> — ' + Object.keys(p.levels).length + ' groupes sollicités');
+    };
+    presetRow.appendChild(b);
+  });
+  function syncPresets(active) {
+    Array.prototype.forEach.call(presetRow.children, function (b) {
+      b.setAttribute('aria-pressed', String(b.textContent === active));
+    });
+  }
+
+  document.getElementById('reset').onclick = function () {
+    map.clear(); syncPresets(null); say('');
+  };
+
+  // Bascule de thème : utile pour juger le dessin sur fond clair et sur fond sombre.
+  var themeBtn = document.getElementById('theme');
+  themeBtn.onclick = function () {
+    var dark = document.documentElement.getAttribute('data-theme') === 'dark';
+    document.documentElement.setAttribute('data-theme', dark ? 'light' : 'dark');
+    themeBtn.textContent = dark ? 'Thème sombre' : 'Thème clair';
+  };
+
+  // Démarrage sur un exercice, histoire de ne pas afficher une figure vide.
+  presetRow.children[0].click();
+</script>
+</body>
+</html>
