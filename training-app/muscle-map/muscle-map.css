@@ -1,0 +1,47 @@
+/* Mise en page du conteneur + thème sombre.
+   Le dessin lui-même porte son style dans le SVG ; ce fichier ne fait que
+   poser la grille et redéfinir les variables de couleur. */
+
+.mm-root {
+  display: flex;
+  gap: clamp(4px, 2vw, 28px);
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.mm-root .mm-figure {
+  width: 100%;
+  max-width: 230px;
+  height: auto;
+  display: block;
+}
+
+/* Une seule vue affichée : on laisse la figure respirer. */
+.mm-root[data-view="front"] .mm-figure,
+.mm-root[data-view="back"] .mm-figure {
+  max-width: 280px;
+  margin: 0 auto;
+}
+
+/* Thème sombre : seules les teintes de peau et les traits changent, les
+   couleurs de sollicitation restent lisibles sur fond foncé. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .mm-figure {
+    --mm-skin-a: #2c3442;
+    --mm-skin-b: #1b212b;
+    --mm-edge: #5d6879;
+    --mm-line: #414c5d;
+    /* sur fond foncé, le pêche clair ressortait plus que le rouge : on le rabat */
+    --mm-l1: #c98a63;
+    --mm-l1-b: #e0a97f;
+  }
+}
+
+:root[data-theme="dark"] .mm-figure {
+  --mm-skin-a: #2c3442;
+  --mm-skin-b: #1b212b;
+  --mm-edge: #5d6879;
+  --mm-line: #414c5d;
+  --mm-l1: #c98a63;
+  --mm-l1-b: #e0a97f;
+}

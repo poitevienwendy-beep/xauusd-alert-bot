@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>muscle-map — test de fumée</title>
+<style>
+  body { font: 14px/1.6 ui-monospace, SFMono-Regular, Menlo, monospace; padding: 20px; }
+  #f { position: absolute; left: -9999px; }
+  .PASS { color: #1a7f37; } .FAIL, .EXCEPTION { color: #cf222e; font-weight: 700; }
+  h1 { font-size: 1rem; }
+</style>
+</head>
+<body>
+<h1 id="head">…</h1>
+<div id="f"></div>
+<pre id="out"></pre>
+
+<script src="../assets/figures.js"></script>
+<script src="../muscle-map.js"></script>
+<script>
+/* Ouvre ce fichier dans un navigateur, ou en headless :
+     chromium --headless --dump-dom test/smoke.html | grep -E 'PASS|FAIL'
+   Le titre du document vaut « ALL PASS » quand tout passe. */
+var log = [], fails = 0;
+
+function ok(name, cond, extra) {
+  log.push((cond ? 'PASS' : 'FAIL') + ' ' + name +
+           (extra !== undefined ? ' -> ' + JSON.stringify(extra) : ''));
+  if (!cond) fails++;
+}
+
+try {
+  var m = MuscleMap.mount('#f', { view: 'both', cycle: [0, 3, 2, 1] });
+
+  ok('vue « both » rend deux figures', document.querySelectorAll('.mm-figure').length === 2);
+  ok('muscles() liste les deux vues', m.muscles().length === 18, m.muscles().length);
+
+  m.set({ chest: 'primary', triceps: 2, abs: 'light' });
+  ok('set() accepte noms et nombres',
+     JSON.stringify(m.get()) === '{"chest":3,"triceps":2,"abs":1}', m.get());
+  ok('le pectoral est peint en 3',
+     document.querySelector('[data-muscle="chest"]').getAttribute('data-level') === '3');
+  ok('le triceps est peint en 2',
+     document.querySelector('[data-muscle="triceps"]').getAttribute('data-level') === '2');
+
+  m.update({ chest: 0, quads: 3 });
+  ok('update() fusionne et retire les zéros',
+     m.levelOf('chest') === 0 && m.levelOf('quads') === 3);
+
+  var events = [];
+  m.on('select', function (e) { events.push(e.muscle + ':' + e.level); });
+
+  var g = document.querySelector('[data-muscle="lats"]');
+  g.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+  ok('premier clic -> 3', m.levelOf('lats') === 3, m.levelOf('lats'));
+  g.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+  ok('deuxième clic suit le cycle -> 2', m.levelOf('lats') === 2, m.levelOf('lats'));
+  g.querySelector('path').dispatchEvent(new MouseEvent('click', { bubbles: true }));
+  ok('un clic sur un path enfant compte', m.levelOf('lats') === 1, m.levelOf('lats'));
+  ok('les événements select sont émis',
+     events.join(',') === 'lats:3,lats:2,lats:1', events);
+
+  g.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
+  ok('Entrée active au clavier', m.levelOf('lats') === 0, m.levelOf('lats'));
+
+  m.setView('front');
+  ok('vue simple = une figure', document.querySelectorAll('.mm-figure').length === 1);
+  ok('l\'état survit au changement de vue',
+     document.querySelector('[data-muscle="quads"]').getAttribute('data-level') === '3');
+  ok('muscles() suit la vue affichée', m.muscles().length === 11, m.muscles().length);
+
+  m.clear();
+  ok('clear() vide l\'état', Object.keys(m.get()).length === 0);
+  ok('clear() repeint la figure',
+     document.querySelector('[data-muscle="quads"]').getAttribute('data-level') === '0');
+
+  m.destroy();
+  ok('destroy() vide le conteneur', document.getElementById('f').children.length === 0);
+
+  // Deux instances de la MÊME vue sur une page : les id internes (dégradés,
+  // masque) doivent être distincts, sinon la seconde figure va chercher les
+  // dégradés de la première et hérite de son thème.
+  var host = document.createElement('div');
+  host.id = 'f2';
+  document.body.appendChild(host);
+  var a = MuscleMap.mount('#f', { view: 'front' });
+  var b = MuscleMap.mount('#f2', { view: 'front' });
+  var idsA = [].map.call(document.querySelectorAll('#f [id^="mm-"]'), function (e) { return e.id; });
+  var idsB = [].map.call(document.querySelectorAll('#f2 [id^="mm-"]'), function (e) { return e.id; });
+  ok('chaque instance a ses propres id', idsA.length > 0 &&
+     idsA.every(function (id) { return idsB.indexOf(id) === -1; }), [idsA[0], idsB[0]]);
+  var refB = getComputedStyle(document.querySelector('#f2 .mm-silhouette')).fill;
+  ok('la 2e figure pointe vers ses propres dégradés', refB.indexOf(idsB[0]) !== -1, refB);
+
+  // Deux figures de la même vue peuvent porter deux thèmes différents : le
+  // dégradé de peau doit être résolu par instance, pas partagé.
+  document.querySelector('#f2 .mm-figure').style.cssText =
+    '--mm-skin-a:#101010;--mm-skin-b:#202020';
+  var stopA = getComputedStyle(document.querySelector('#f .s-skin-a')).stopColor;
+  var stopB = getComputedStyle(document.querySelector('#f2 .s-skin-a')).stopColor;
+  ok('chaque figure garde son propre thème', stopA !== stopB, [stopA, stopB]);
+
+  a.destroy(); b.destroy(); host.remove();
+} catch (e) {
+  log.push('EXCEPTION ' + e.message + ' | ' + (e.stack || '').split('\n')[1]);
+  fails++;
+}
+
+document.title = fails === 0 ? 'ALL PASS' : fails + ' FAIL';
+document.getElementById('head').textContent =
+  fails === 0 ? '✓ ' + log.length + ' vérifications OK' : '✗ ' + fails + ' échec(s)';
+document.getElementById('out').innerHTML = log.map(function (l) {
+  return '<span class="' + l.split(' ')[0] + '">' + l + '</span>';
+}).join('\n');
+</script>
+</body>
+</html>
