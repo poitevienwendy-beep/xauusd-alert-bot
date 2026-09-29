@@ -77,7 +77,8 @@ section{padding-block:96px}
 /* bienfaits */
 .benefits{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:40px;margin-top:48px}
 .benefit{display:grid;gap:10px;align-content:start}
-.ill{background:var(--white);border-radius:24px;padding:10px 12px;margin-bottom:10px}
+.ill{background:#fff;border-radius:24px;overflow:hidden;margin-bottom:12px}
+.ill img{display:block;width:100%;height:auto;aspect-ratio:3/2;object-fit:cover}
 .ill svg{display:block;width:100%;height:auto}
 .ill .u{fill:var(--white);stroke:var(--deep);stroke-width:2;stroke-linecap:round}
 .ill .thin{stroke:var(--line);stroke-width:2;stroke-linecap:round;fill:none}
@@ -283,16 +284,9 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px 
       <figure><img src="img/propre.jpg" alt="Turbine et serpentin propres après nettoyage" loading="lazy"><figcaption><b>Après notre passage</b><span>Serpentin rincé, turbine blanche, bac et drain désinfectés.</span></figcaption></figure>
     </div>
     <div class="benefits">
-      <div class="benefit"><div class="ill"><svg viewBox="0 0 280 160" role="img" aria-label="Air qui sort des volets d'une tête murale"><path d="M14 10h252" class="ceil"/><rect x="40" y="20" width="200" height="64" rx="16" class="u"/><path d="M60 84h160" class="u"/><path d="M76 91 208 91" class="thin"/><path d="M92 98c6 18 22 30 44 40" class="flow"/><path d="M130 98c4 20 18 34 40 46" class="flow"/><path d="M168 98c2 18 12 32 30 44" class="flow"/>
-<path d="M220 91c14 0 20 6 20 16" class="lead"/><text x="266" y="122" class="lbl" text-anchor="end">volets</text></svg></div><h3>Un air plus sain</h3><p>Moins de poussière et d'allergènes soufflés dans les chambres et le salon.</p></div>
-      <div class="benefit"><div class="ill"><svg viewBox="0 0 280 160" role="img" aria-label="Ailettes du serpentin dans une tête murale"><path d="M14 10h252" class="ceil"/><rect x="40" y="20" width="200" height="64" rx="16" class="u"/><path d="M60 84h160" class="u"/>
-<rect x="54" y="30" width="164" height="44" rx="6" class="cut"/><path d="M62 34v36" class="fin"/><path d="M69 34v36" class="fin"/><path d="M76 34v36" class="fin"/><path d="M83 34v36" class="fin"/><path d="M90 34v36" class="fin"/><path d="M97 34v36" class="fin"/><path d="M104 34v36" class="fin"/><path d="M111 34v36" class="fin"/><path d="M118 34v36" class="fin"/><path d="M125 34v36" class="fin"/><path d="M132 34v36" class="fin"/><path d="M139 34v36" class="fin"/><path d="M146 34v36" class="fin"/><path d="M153 34v36" class="fin"/><path d="M160 34v36" class="fin"/><path d="M167 34v36" class="fin"/><path d="M174 34v36" class="fin"/><path d="M181 34v36" class="fin"/><path d="M188 34v36" class="fin"/><path d="M195 34v36" class="fin"/><path d="M202 34v36" class="fin"/><path d="M209 34v36" class="fin"/>
-<path d="M214 38c8 0 8 8 0 8M214 50c8 0 8 8 0 8M214 62c8 0 8 8 0 8" class="cu"/>
-<path d="M140 74v40" class="lead"/><text x="140" y="130" class="lbl" text-anchor="middle">serpentin</text></svg></div><h3>Moins d'électricité</h3><p>Un serpentin propre échange mieux la chaleur : l'appareil tourne moins longtemps.</p></div>
-      <div class="benefit"><div class="ill"><svg viewBox="0 0 280 160" role="img" aria-label="Bac à condensat et drain d'une tête murale"><path d="M14 10h252" class="ceil"/><rect x="40" y="20" width="200" height="64" rx="16" class="u"/><path d="M60 84h160" class="u"/><path d="M76 91 208 91" class="thin"/><path d="M70 72h138" class="tray"/>
-<path d="M218 76c14 0 22 6 22 20v34" class="pipe"/>
-<path transform="translate(240 146) scale(1)" d="M0-8C4-3 6 0 6 3a6 6 0 0 1-12 0c0-3 2-6 6-11z" class="drop"/><path transform="translate(150 62) scale(0.7)" d="M0-8C4-3 6 0 6 3a6 6 0 0 1-12 0c0-3 2-6 6-11z" class="drop"/><path transform="translate(120 62) scale(0.55)" d="M0-8C4-3 6 0 6 3a6 6 0 0 1-12 0c0-3 2-6 6-11z" class="drop"/>
-<path d="M110 76v38" class="lead"/><text x="110" y="130" class="lbl" text-anchor="middle">bac et drain</text></svg></div><h3>Fini les gouttes au mur</h3><p>Le bac et le drain débouchés, l'eau de condensation s'écoule là où elle doit.</p></div>
+      <div class="benefit"><div class="ill"><img src="img/ill-air.jpg" alt="Illustration : l'air propre qui sort des volets d'une tête murale" loading="lazy" width="1100" height="733"></div><h3>Un air plus sain</h3><p>Moins de poussière et d'allergènes soufflés dans les chambres et le salon.</p></div>
+      <div class="benefit"><div class="ill"><img src="img/ill-serpentin.jpg" alt="Illustration : les ailettes du serpentin et les tubes de cuivre, façade retirée" loading="lazy" width="1100" height="733"></div><h3>Moins d'électricité</h3><p>Un serpentin propre échange mieux la chaleur : l'appareil tourne moins longtemps.</p></div>
+      <div class="benefit"><div class="ill"><img src="img/ill-drain.jpg" alt="Illustration : le bac à condensat et le drain qui évacue l'eau le long du mur" loading="lazy" width="1100" height="733"></div><h3>Fini les gouttes au mur</h3><p>Le bac et le drain débouchés, l'eau de condensation s'écoule là où elle doit.</p></div>
     </div>
   </div>
 </section>
