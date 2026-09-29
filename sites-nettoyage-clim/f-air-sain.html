@@ -1,0 +1,356 @@
+<title>Thermo-Propre Air sain</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Figtree:wght@400;500;600;700&display=swap">
+<style>
+/* Layout : page aérée blanc et brume, grandes photos de vie à coins très arrondis ; le formulaire de réservation en 3 étapes avec résumé en direct est le cœur de la page. Look unique assumé. */
+:root{
+  color-scheme:light;
+  --white:#FFFFFF;
+  --mist:#EDF6F4;
+  --mist-2:#DDEEEA;
+  --teal:#0F6E69;
+  --deep:#0A3634;
+  --coral:#EE7B5B;
+  --ink:#1B2A2A;
+  --muted:#557170;
+  --line:#D4E5E1;
+  --f-display:"Young Serif", Georgia, serif;
+  --f-body:"Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--white);color:var(--ink);font-family:var(--f-body);font-size:1.05rem;line-height:1.65}
+img{max-width:100%;display:block}
+:focus-visible{outline:3px solid var(--coral);outline-offset:3px}
+.wrap{max-width:1180px;margin:0 auto;padding-inline:24px}
+h1,h2,h3{font-family:var(--f-display);font-weight:400;margin:0;line-height:1.1;text-wrap:balance;color:var(--deep)}
+h2{font-size:clamp(2rem,4vw,3rem)}
+h3{font-size:1.3rem}
+p{margin:0}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:15px 26px;border-radius:999px;font:inherit;font-weight:700;text-decoration:none;border:0;cursor:pointer;transition:background .2s}
+.btn-teal{background:var(--teal);color:#fff}
+.btn-teal:hover{background:var(--deep)}
+.btn-line{border:1.5px solid var(--teal);color:var(--teal);background:transparent}
+.num{font-variant-numeric:tabular-nums}
+
+.top .wrap{display:flex;justify-content:space-between;align-items:center;gap:16px;padding-block:20px}
+.logo{display:flex;align-items:center;gap:10px;font-family:var(--f-display);font-size:1.4rem;color:var(--deep);text-decoration:none}
+.logo svg{width:34px;height:34px}
+.top nav{display:flex;gap:28px;font-weight:600;color:var(--muted)}
+.top nav a{text-decoration:none;color:inherit}
+.top nav a:hover{color:var(--teal)}
+.top .btn{padding:10px 18px}
+
+/* hero */
+.hero .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:56px;align-items:center;padding-block:28px 80px}
+.hero h1{font-size:clamp(2.5rem,5.2vw,4.3rem)}
+.hero p.l{margin-top:22px;font-size:1.18rem;color:var(--muted);max-width:44ch}
+.hero .ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+.hero-img{position:relative}
+.hero-img img{border-radius:40px 40px 40px 140px;aspect-ratio:5/4;object-fit:cover;width:100%}
+.float{position:absolute;left:-28px;bottom:28px;background:var(--white);border-radius:22px;padding:18px 20px;max-width:270px;box-shadow:0 24px 50px -24px rgba(10,54,52,.45);display:grid;grid-template-columns:44px minmax(0,1fr);gap:12px;align-items:center}
+.float i{width:44px;height:44px;border-radius:14px;background:var(--mist);display:grid;place-items:center}
+.float b{display:block;color:var(--deep)}
+.float span{font-size:.9rem;color:var(--muted);line-height:1.35;display:block}
+.trust{display:flex;flex-wrap:wrap;gap:10px 26px;margin-top:34px;color:var(--muted);font-weight:600;font-size:.95rem}
+.trust span{display:flex;gap:8px;align-items:center}
+.trust svg{color:var(--teal)}
+
+section{padding-block:96px}
+.mist{background:var(--mist)}
+
+/* ce qu'on trouve */
+.found{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1fr);gap:24px;margin-top:44px}
+.found figure{margin:0;display:grid;gap:14px;align-content:start}
+.found img{border-radius:24px;aspect-ratio:1;object-fit:cover;width:100%}
+.found figcaption b{display:block;color:var(--deep);font-size:1.08rem}
+.found figcaption span{color:var(--muted);font-size:.95rem}
+.intro{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px 56px;align-items:end}
+.intro p{color:var(--muted);font-size:1.1rem}
+
+/* bienfaits */
+.benefits{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:40px;margin-top:48px}
+.benefit{display:grid;gap:10px;align-content:start}
+.benefit i{width:56px;height:56px;border-radius:18px;background:var(--white);display:grid;place-items:center;color:var(--teal)}
+.benefit p{color:var(--muted)}
+
+/* réservation */
+.book{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:32px;margin-top:40px;align-items:start}
+.wizard{background:var(--white);border:1px solid var(--line);border-radius:28px;padding:32px}
+.prog{display:flex;gap:8px;margin-bottom:26px;list-style:none;padding:0}
+.prog li{flex:1;display:grid;gap:8px;font-size:.85rem;font-weight:700;color:var(--muted)}
+.prog li::before{content:"";height:6px;border-radius:6px;background:var(--line)}
+.prog li.on{color:var(--teal)}
+.prog li.on::before{background:var(--teal)}
+.step h3{margin-bottom:6px}
+.step > p{color:var(--muted);margin-bottom:22px}
+.counter{display:flex;align-items:center;gap:18px}
+.counter button{width:56px;height:56px;border-radius:50%;border:1.5px solid var(--line);background:var(--white);font:inherit;font-size:1.6rem;color:var(--deep);cursor:pointer}
+.counter button:hover{border-color:var(--teal)}
+.counter output{font-family:var(--f-display);font-size:3.2rem;color:var(--deep);min-width:64px;text-align:center}
+.tierinfo{margin-top:14px;color:var(--teal);font-weight:600}
+.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.card input{position:absolute;opacity:0;pointer-events:none}
+.card span{display:grid;gap:4px;border:1.5px solid var(--line);border-radius:18px;padding:16px;cursor:pointer;height:100%}
+.card span b{color:var(--deep)}
+.card span em{font-style:normal;color:var(--muted);font-size:.88rem;line-height:1.35}
+.card input:checked + span{border-color:var(--teal);background:var(--mist)}
+.card input:focus-visible + span{outline:3px solid var(--coral);outline-offset:2px}
+.opts{display:grid;gap:10px;margin-top:20px}
+.opt{display:flex;gap:12px;align-items:center;padding:12px 14px;border-radius:14px;background:var(--mist);cursor:pointer}
+.opt input{width:18px;height:18px;accent-color:var(--teal)}
+.opt em{font-style:normal;margin-left:auto;font-weight:700;color:var(--deep);font-variant-numeric:tabular-nums}
+.rec{font-size:.8rem;font-weight:700;color:#fff;background:var(--coral);border-radius:999px;padding:2px 8px}
+.fields{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px}
+.fields label{display:grid;gap:6px;font-weight:600;font-size:.92rem}
+.fields .full{grid-column:1/-1}
+.fields input,.fields select{font:inherit;padding:13px 14px;border-radius:14px;border:1.5px solid var(--line);background:var(--white);color:var(--ink)}
+.nav-btns{display:flex;justify-content:space-between;gap:12px;margin-top:28px}
+.msg{margin-top:16px;background:var(--mist);border-left:3px solid var(--teal);padding:12px 14px;border-radius:8px}
+.summary{background:var(--deep);color:#fff;border-radius:28px;padding:30px;display:grid;gap:10px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 20px);font-variant-numeric:tabular-nums}
+.summary h3{color:#fff;margin-bottom:8px}
+.summary .l{display:flex;justify-content:space-between;gap:12px;color:#BFD7D4}
+.summary .t{border-top:1px solid rgba(255,255,255,.18);padding-top:14px;margin-top:6px;display:flex;justify-content:space-between;align-items:baseline}
+.summary .t b{font-family:var(--f-display);font-weight:400;font-size:2.5rem}
+.summary small{color:#BFD7D4}
+
+/* bande photo */
+.band{position:relative;min-height:440px;display:flex;align-items:flex-end;background:var(--deep) url(img/salon.jpg) center/cover no-repeat;border-radius:40px;overflow:hidden;color:#fff}
+.band::before{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(10,54,52,.85),rgba(10,54,52,0) 60%)}
+.band div{position:relative;padding:40px;max-width:640px}
+.band h2{color:#fff}
+.band p{margin-top:12px;color:#DCEDEA}
+
+/* prix + faq */
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:56px}
+table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;margin-top:24px}
+td{padding:14px 4px;border-bottom:1px solid var(--line)}
+td:last-child{text-align:right;font-weight:700;color:var(--deep);white-space:nowrap}
+details{border-bottom:1px solid var(--line);padding-block:18px}
+summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:16px;font-weight:700;color:var(--deep);font-size:1.08rem}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";color:var(--teal);font-size:1.4rem;line-height:1}
+details[open] summary::after{content:"−"}
+details p{margin-top:8px;color:var(--muted)}
+footer{border-top:1px solid var(--line);color:var(--muted);font-size:.9rem}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px 24px;padding-block:28px 40px}
+
+@media (max-width:960px){
+  .top nav{display:none}
+  .hero .wrap,.intro,.book,.two{grid-template-columns:minmax(0,1fr)}
+  .found,.benefits{grid-template-columns:minmax(0,1fr)}
+  .found img{aspect-ratio:3/2}
+  .float{left:14px;bottom:-24px}
+  .summary{position:static}
+}
+@media (max-width:560px){
+  .wrap{padding-inline:18px}
+  .cards{grid-template-columns:minmax(0,1fr)}
+  .fields{grid-template-columns:minmax(0,1fr)}
+  .wizard{padding:22px}
+  .band{border-radius:28px}
+  .band div{padding:26px}
+  section{padding-block:72px}
+  .hero-img img{border-radius:28px 28px 28px 80px}
+  .top .btn span{display:none}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="#"><svg viewBox="0 0 34 34" fill="none"><circle cx="17" cy="17" r="17" fill="#EDF6F4"/><path d="M8 13h12a3 3 0 1 0-3-3M8 18h15a3 3 0 1 1-3 3M8 23h7" stroke="#0F6E69" stroke-width="2.2" stroke-linecap="round"/></svg>Thermo-Propre</a>
+    <nav><a href="#trouve">Ce qu'on retire</a><a href="#reserver">Réserver</a><a href="#prix">Prix</a><a href="#faq">Questions</a></nav>
+    <a class="btn btn-teal" href="#reserver"><span>Réserver en ligne</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></a>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="wrap">
+    <div>
+      <h1>L'air que votre famille respire passe par ici.</h1>
+      <p class="l">Votre climatiseur mural souffle dans vos pièces 24 heures sur 24. On le nettoie en profondeur pour retirer la poussière, les bactéries et la moisissure qui s'y accumulent.</p>
+      <div class="ctas">
+        <a class="btn btn-teal" href="#reserver">Réserver mon nettoyage</a>
+        <a class="btn btn-line num" href="#reserver">514 555-0142</a>
+      </div>
+      <div class="trust">
+        <span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg>Prix fixe dès 109 $</span>
+        <span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg>Produits sans danger pour la maison</span>
+        <span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg>Satisfait ou on repasse</span>
+      </div>
+    </div>
+    <div class="hero-img">
+      <img src="img/chambre.jpg" alt="Enfant qui dort paisiblement dans une chambre avec un climatiseur mural propre">
+      <div class="float"><i><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0F6E69" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></i><div><b>Une nuit plus saine</b><span>Environ une heure par appareil, sans dégât dans la chambre.</span></div></div>
+    </div>
+  </div>
+</div>
+
+<section class="mist" id="trouve">
+  <div class="wrap">
+    <div class="intro">
+      <h2>Ce qu'on retire de votre appareil</h2>
+      <p>Laver les filtres, c'est bien. Mais la poussière passe au travers et se colle au serpentin et à la turbine, là où vous ne pouvez pas aller.</p>
+    </div>
+    <div class="found">
+      <figure><img src="img/filtre.jpg" alt="Filtre de climatiseur saturé de poussière" loading="lazy"><figcaption><b>Des filtres saturés</b><span>L'air passe mal, l'appareil force et consomme plus.</span></figcaption></figure>
+      <figure><img src="img/sale.jpg" alt="Turbine couverte de moisissure noire" loading="lazy"><figcaption><b>Une turbine moisie</b><span>C'est elle qui souffle l'odeur de renfermé dans la pièce.</span></figcaption></figure>
+      <figure><img src="img/propre.jpg" alt="Turbine et serpentin propres après nettoyage" loading="lazy"><figcaption><b>Après notre passage</b><span>Serpentin rincé, turbine blanche, bac et drain désinfectés.</span></figcaption></figure>
+    </div>
+    <div class="benefits">
+      <div class="benefit"><i><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9.6 4.6A2 2 0 1 1 11 8H2M12.6 19.4A2 2 0 1 0 14 16H2M17.5 8a2.5 2.5 0 1 1 2 4H2"/></svg></i><h3>Un air plus sain</h3><p>Moins de poussière et d'allergènes soufflés dans les chambres et le salon.</p></div>
+      <div class="benefit"><i><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg></i><h3>Moins d'électricité</h3><p>Un serpentin propre échange mieux la chaleur : l'appareil tourne moins longtemps.</p></div>
+      <div class="benefit"><i><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2.7s6 6.3 6 11.3a6 6 0 0 1-12 0c0-5 6-11.3 6-11.3z"/></svg></i><h3>Fini les gouttes au mur</h3><p>Le bac et le drain débouchés, l'eau de condensation s'écoule là où elle doit.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="reserver">
+  <div class="wrap">
+    <h2>Réservez en trois étapes</h2>
+    <div class="book">
+      <form class="wizard" id="wiz" novalidate>
+        <ol class="prog" id="prog"><li class="on">Vos appareils</li><li>Leur état</li><li>Vos coordonnées</li></ol>
+
+        <div class="step" data-step="1">
+          <h3>Combien de climatiseurs muraux?</h3>
+          <p>Comptez les têtes à l'intérieur, pas l'unité extérieure.</p>
+          <div class="counter">
+            <button type="button" id="minus" aria-label="Retirer un appareil">−</button>
+            <output id="n" aria-live="polite">2</output>
+            <button type="button" id="plus" aria-label="Ajouter un appareil">+</button>
+          </div>
+          <p class="tierinfo" id="tierinfo"></p>
+        </div>
+
+        <div class="step" data-step="2" hidden>
+          <h3>Dans quel état sont-ils?</h3>
+          <p>On adapte le traitement. Les options restent à votre choix.</p>
+          <div class="cards" role="radiogroup" aria-label="État des appareils">
+            <label class="card"><input type="radio" name="etat" value="n" checked><span><b>Normal</b><em>Entretenu dans les 2 dernières années</em></span></label>
+            <label class="card"><input type="radio" name="etat" value="s"><span><b>Jamais nettoyé</b><em>Ou plus de 2 ans sans entretien</em></span></label>
+            <label class="card"><input type="radio" name="etat" value="m"><span><b>Odeur ou points noirs</b><em>Moisissure visible sur les volets</em></span></label>
+          </div>
+          <div class="opts">
+            <label class="opt"><input type="checkbox" id="o1">Désinfection antibactérienne <span class="rec" id="r1" hidden>Conseillé</span><em>+39 $ / app.</em></label>
+            <label class="opt"><input type="checkbox" id="o2">Traitement anti-moisissure <span class="rec" id="r2" hidden>Conseillé</span><em>+25 $ / app.</em></label>
+            <label class="opt"><input type="checkbox" id="o3">Installé à plus de 3 m<em>+25 $ / app.</em></label>
+            <label class="opt"><input type="checkbox" id="o4">Unité extérieure aussi<em>+59 $</em></label>
+          </div>
+        </div>
+
+        <div class="step" data-step="3" hidden>
+          <h3>Où et comment vous joindre?</h3>
+          <p>On vous rappelle dans la journée avec deux plages horaires.</p>
+          <div class="fields">
+            <label for="nom">Nom<input type="text" id="nom" autocomplete="name"></label>
+            <label for="tel">Téléphone<input type="tel" id="tel" autocomplete="tel"></label>
+            <label class="full" for="zone">Secteur
+              <select id="zone"><option value="0">Moins de 20 km de Montréal (déplacement inclus)</option><option value="30">De 20 à 40 km (+30 $)</option></select>
+            </label>
+            <label class="full" for="adr">Ville ou quartier<input type="text" id="adr"></label>
+          </div>
+        </div>
+
+        <div class="nav-btns">
+          <button type="button" class="btn btn-line" id="back" hidden>Retour</button>
+          <button type="button" class="btn btn-teal" id="next" style="margin-left:auto">Continuer</button>
+        </div>
+        <p class="msg" id="msg" hidden></p>
+      </form>
+
+      <aside class="summary" aria-live="polite">
+        <h3>Votre soumission</h3>
+        <div class="l"><span id="s1"></span><span id="s1v"></span></div>
+        <div class="l"><span>Options</span><span id="s2"></span></div>
+        <div class="l"><span>Déplacement</span><span id="s3"></span></div>
+        <div class="l"><span>TPS et TVQ</span><span id="s4"></span></div>
+        <div class="t"><span>Total</span><b id="st"></b></div>
+        <small>Prix garanti 30 jours. Vous payez après l'intervention, comptant, virement ou carte.</small>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="band"><div><h2>Un appareil propre, ça ne se remarque pas. Ça se respire.</h2><p>On recommande un nettoyage par année, ou deux si votre thermopompe chauffe aussi l'hiver.</p></div></div>
+  </div>
+</section>
+
+<section class="mist" id="prix">
+  <div class="wrap two">
+    <div>
+      <h2>Nos prix</h2>
+      <table>
+        <tr><td>1 appareil</td><td>139 $</td></tr>
+        <tr><td>2 appareils</td><td>129 $ chacun</td></tr>
+        <tr><td>3 ou 4 appareils</td><td>119 $ chacun</td></tr>
+        <tr><td>5 appareils et plus</td><td>109 $ chacun</td></tr>
+        <tr><td>Désinfection antibactérienne</td><td>+39 $ / app.</td></tr>
+        <tr><td>Traitement anti-moisissure</td><td>+25 $ / app.</td></tr>
+        <tr><td>Unité extérieure</td><td>+59 $</td></tr>
+        <tr><td>Déplacement de 20 à 40 km</td><td>+30 $</td></tr>
+      </table>
+      <p style="margin-top:14px;color:var(--muted);font-size:.92rem">Prix avant TPS et TVQ.</p>
+    </div>
+    <div id="faq">
+      <h2>Questions fréquentes</h2>
+      <div style="margin-top:14px">
+        <details><summary>Les produits sont-ils sécuritaires?</summary><p>On utilise des nettoyants non corrosifs faits pour les serpentins, rincés à l'eau claire. La pièce peut être utilisée tout de suite après.</p></details>
+        <details><summary>Combien de temps ça prend?</summary><p>Environ une heure par appareil, un peu plus s'il n'a jamais été nettoyé.</p></details>
+        <details><summary>Est-ce que ça mouille?</summary><p>Non. Une housse étanche récupère toute l'eau de rinçage dans un seau.</p></details>
+        <details><summary>Faites-vous le réfrigérant?</summary><p>Non, on fait le nettoyage seulement. On vous avertit si on remarque un problème.</p></details>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer><div class="wrap"><span>© Thermo-Propre (nom de travail) · 514 555-0142</span><span>Site d'exemple : la réservation n'envoie rien pour l'instant.</span></div></footer>
+
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const pu = n => n >= 5 ? 109 : n >= 3 ? 119 : n === 2 ? 129 : 139;
+  const money = v => v.toLocaleString("fr-CA", {minimumFractionDigits:2, maximumFractionDigits:2}) + " $";
+  let n = 2, step = 1;
+
+  function sum(){
+    const base = n*pu(n);
+    const opt = n*(($("o1").checked?39:0) + ($("o2").checked?25:0) + ($("o3").checked?25:0)) + ($("o4").checked?59:0);
+    const dep = +$("zone").value, sub = Math.max(120, base+opt+dep), tax = sub*.14975;
+    $("n").textContent = n;
+    $("minus").disabled = n <= 1;
+    $("tierinfo").textContent = n >= 5 ? "Meilleur tarif : 109 $ par appareil." : `${pu(n)} $ par appareil. ` + (n === 1 ? "Dès 2 appareils : 129 $ chacun." : n === 2 ? "Dès 3 appareils : 119 $ chacun." : "Dès 5 appareils : 109 $ chacun.");
+    $("s1").textContent = `${n} × ${pu(n)} $`; $("s1v").textContent = money(base);
+    $("s2").textContent = money(opt); $("s3").textContent = dep ? money(dep) : "Inclus";
+    $("s4").textContent = money(tax); $("st").textContent = money(sub+tax);
+    const e = document.querySelector("input[name=etat]:checked").value;
+    $("r1").hidden = e !== "s"; $("r2").hidden = e !== "m";
+  }
+  $("minus").onclick = () => { if (n > 1) { n--; sum(); } };
+  $("plus").onclick = () => { if (n < 12) { n++; sum(); } };
+  document.querySelectorAll("#wiz input, #wiz select").forEach(el => el.addEventListener("change", sum));
+
+  function show(){
+    document.querySelectorAll(".step").forEach(s => s.hidden = +s.dataset.step !== step);
+    document.querySelectorAll("#prog li").forEach((li, i) => li.classList.toggle("on", i < step));
+    $("back").hidden = step === 1;
+    $("next").textContent = step === 3 ? "Envoyer ma demande" : "Continuer";
+  }
+  $("back").onclick = () => { step--; $("msg").hidden = true; show(); };
+  $("next").onclick = () => {
+    if (step < 3) { step++; show(); return; }
+    const m = $("msg"); m.hidden = false;
+    m.textContent = $("tel").value.trim()
+      ? "Merci! Sur ce site d'exemple, la demande n'est pas encore envoyée."
+      : "Ajoutez votre numéro de téléphone pour qu'on puisse vous rappeler.";
+  };
+  $("wiz").addEventListener("submit", e => e.preventDefault());
+  sum(); show();
+})();
+</script>

@@ -1,0 +1,303 @@
+<title>Thermo-Propre Énergique</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@500;700;800&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700&display=swap">
+<style>
+/* Layout : blocs de couleur francs (cobalt, soleil, blanc) qui se succèdent, photos dans des cadres arrondis inclinés, gros chiffres de prix. Look unique assumé. */
+:root{
+  color-scheme:light;
+  --cobalt:#1E47D6;
+  --cobalt-d:#1535A8;
+  --sun:#FFCC2F;
+  --sky:#E3EBFF;
+  --ink:#0F1636;
+  --muted:#4A5580;
+  --white:#FFFFFF;
+  --f-display:"Lexend", "Arial Rounded MT Bold", system-ui, sans-serif;
+  --f-body:"Nunito Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--white);color:var(--ink);font-family:var(--f-body);font-size:1.05rem;line-height:1.6}
+img{max-width:100%;display:block}
+:focus-visible{outline:3px solid var(--sun);outline-offset:3px}
+.wrap{max-width:1180px;margin:0 auto;padding-inline:22px}
+h1,h2,h3{font-family:var(--f-display);margin:0;line-height:1.02;text-wrap:balance;letter-spacing:-.025em}
+h2{font-size:clamp(2.1rem,4.6vw,3.6rem);font-weight:800}
+h3{font-size:1.35rem;font-weight:700;letter-spacing:-.01em}
+p{margin:0}
+.btn{display:inline-flex;align-items:center;gap:10px;font-family:var(--f-display);font-weight:700;font-size:1.05rem;padding:16px 26px;border-radius:14px;text-decoration:none;border:0;cursor:pointer;transition:transform .15s}
+.btn:hover{transform:translateY(-2px)}
+.btn-sun{background:var(--sun);color:var(--ink);box-shadow:0 4px 0 #D9A600}
+.btn-white{background:var(--white);color:var(--cobalt)}
+.num{font-variant-numeric:tabular-nums}
+
+/* barre */
+.bar{background:var(--cobalt);color:#fff;position:sticky;top:env(safe-area-inset-top,0px);z-index:10}
+.bar .wrap{display:flex;justify-content:space-between;align-items:center;gap:16px;padding-block:14px}
+.logo{font-family:var(--f-display);font-weight:800;font-size:1.4rem;letter-spacing:-.03em;display:flex;align-items:center;gap:8px;color:#fff;text-decoration:none}
+.logo i{width:30px;height:30px;border-radius:9px;background:var(--sun);display:grid;place-items:center}
+.bar nav{display:flex;gap:26px;font-weight:700}
+.bar nav a{color:#fff;text-decoration:none;opacity:.85}
+.bar nav a:hover{opacity:1}
+.bar .btn{padding:10px 16px;font-size:.95rem;box-shadow:none}
+
+/* hero */
+.hero{background:var(--cobalt);color:#fff;overflow:hidden}
+.hero .wrap{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:48px;align-items:center;padding-block:48px 88px}
+.hero h1{font-size:clamp(2.8rem,6.4vw,5.4rem);font-weight:800}
+.hero h1 span{display:block;color:var(--sun)}
+.hero p{margin-top:22px;font-size:1.2rem;color:#DCE4FF;max-width:44ch}
+.hero .ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px;align-items:center}
+.hero .ph{font-family:var(--f-display);font-weight:700;color:#fff;text-decoration:none;font-size:1.15rem}
+.photo{position:relative}
+.photo img{border-radius:28px;transform:rotate(2.5deg);border:8px solid #fff;box-shadow:0 30px 60px -20px rgba(0,0,0,.45);aspect-ratio:3/2;object-fit:cover;width:100%}
+.sticker{position:absolute;left:-24px;bottom:-30px;width:150px;height:150px;border-radius:50%;background:var(--sun);color:var(--ink);display:grid;place-items:center;text-align:center;font-family:var(--f-display);font-weight:800;line-height:1.05;transform:rotate(-10deg);box-shadow:0 12px 30px -10px rgba(0,0,0,.4)}
+.sticker small{display:block;font-size:.8rem;font-weight:600}
+.sticker b{display:block;font-size:2.6rem;letter-spacing:-.04em}
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:36px}
+.chips span{background:rgba(255,255,255,.12);border-radius:999px;padding:8px 14px;font-weight:700;font-size:.95rem}
+
+section{padding-block:96px}
+
+/* choc */
+.shock .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:56px;align-items:center}
+.shock-img{position:relative}
+.shock-img img{border-radius:28px;aspect-ratio:4/5;object-fit:cover;width:100%}
+.bubble{position:absolute;right:-18px;top:36px;max-width:230px;background:var(--sun);color:var(--ink);padding:16px 18px;border-radius:18px 18px 4px 18px;font-family:var(--f-display);font-weight:700;line-height:1.25;box-shadow:0 10px 24px -10px rgba(0,0,0,.35)}
+.shock p.l{margin-top:18px;color:var(--muted);font-size:1.12rem}
+.pair{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px;margin-top:30px}
+.pair figure{margin:0;position:relative}
+.pair img{border-radius:18px;aspect-ratio:1;object-fit:cover;width:100%}
+.pair figcaption{position:absolute;left:10px;top:10px;font-family:var(--f-display);font-weight:700;font-size:.85rem;padding:5px 12px;border-radius:999px}
+.pair .a figcaption{background:var(--ink);color:#fff}
+.pair .b figcaption{background:var(--sun);color:var(--ink)}
+
+/* prix */
+.price{background:var(--sky)}
+.price-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:48px;align-items:center}
+.price .l{margin-top:16px;color:var(--muted);font-size:1.12rem}
+.meter{background:var(--white);border-radius:28px;padding:34px;box-shadow:0 20px 50px -30px rgba(30,71,214,.5)}
+.meter label{font-family:var(--f-display);font-weight:700;display:flex;justify-content:space-between;align-items:baseline}
+.meter label output{font-size:2.4rem;color:var(--cobalt);font-weight:800}
+input[type=range]{width:100%;margin:18px 0 6px;accent-color:var(--cobalt);height:28px}
+.ticks{display:flex;justify-content:space-between;color:var(--muted);font-size:.85rem;font-weight:700}
+.big{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px;margin-top:26px}
+.big div{border-radius:18px;padding:18px 20px}
+.big .pu{background:var(--sky)}
+.big .tot{background:var(--cobalt);color:#fff}
+.big small{display:block;font-weight:700;opacity:.8}
+.big b{font-family:var(--f-display);font-weight:800;font-size:2.3rem;letter-spacing:-.03em;font-variant-numeric:tabular-nums;line-height:1.1}
+.save{margin-top:14px;font-weight:700;color:var(--cobalt)}
+.extras{margin-top:18px;font-size:.92rem;color:var(--muted)}
+.tier-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
+.tier-row span{background:var(--white);border-radius:12px;padding:10px 14px;font-weight:700}
+.tier-row b{font-family:var(--f-display);color:var(--cobalt)}
+
+/* étapes : vraie séquence */
+.how h2{max-width:16ch}
+.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;margin-top:44px;list-style:none;padding:0;counter-reset:s}
+.steps li{counter-increment:s;background:var(--white);border:3px solid var(--ink);border-radius:24px;padding:28px;display:grid;gap:10px;align-content:start}
+.steps li::before{content:counter(s);width:52px;height:52px;border-radius:16px;background:var(--sun);display:grid;place-items:center;font-family:var(--f-display);font-weight:800;font-size:1.5rem}
+.steps li:nth-child(2)::before{background:var(--cobalt);color:#fff}
+.steps li:nth-child(3)::before{background:var(--ink);color:#fff}
+.steps p{color:var(--muted)}
+
+/* zone */
+.zone{background:var(--ink);color:#fff}
+.zone .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:48px;align-items:center}
+.zone img{border-radius:28px;aspect-ratio:3/2;object-fit:cover;width:100%}
+.cities{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px}
+.cities span{border:2px solid rgba(255,255,255,.25);border-radius:999px;padding:6px 14px;font-weight:700}
+.cities span.b{border-color:var(--sun);color:var(--sun)}
+.zone p{margin-top:18px;color:#C3CBEA}
+
+/* faq */
+.faq{max-width:860px}
+details{background:var(--sky);border-radius:18px;padding:20px 24px;margin-top:12px}
+summary{cursor:pointer;list-style:none;font-family:var(--f-display);font-weight:700;font-size:1.15rem;display:flex;justify-content:space-between;gap:16px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";width:30px;height:30px;flex:none;border-radius:10px;background:var(--cobalt);color:#fff;display:grid;place-items:center;line-height:1}
+details[open] summary::after{content:"−"}
+details p{margin-top:10px;color:var(--muted)}
+
+/* fin */
+.end{background:var(--sun);text-align:left}
+.end .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:40px;align-items:center}
+.end h2{font-size:clamp(2.4rem,5.4vw,4.4rem)}
+.end .phone{font-family:var(--f-display);font-weight:800;font-size:clamp(2rem,4.4vw,3.2rem);letter-spacing:-.03em;margin-top:14px;user-select:all}
+form{background:var(--white);border-radius:24px;padding:28px;display:grid;gap:12px}
+form label{font-weight:700;font-size:.92rem;display:grid;gap:6px}
+form input,form select{font:inherit;padding:13px 14px;border-radius:12px;border:2px solid var(--sky);background:var(--white);color:var(--ink)}
+form .btn{justify-content:center;background:var(--cobalt);color:#fff;box-shadow:0 4px 0 var(--cobalt-d)}
+.msg{background:var(--sky);border-radius:12px;padding:10px 12px;font-weight:600}
+footer{background:var(--cobalt);color:#DCE4FF;font-size:.9rem}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px 24px;padding-block:24px 36px}
+
+@media (max-width:940px){
+  .bar nav{display:none}
+  .hero .wrap,.shock .wrap,.price-grid,.zone .wrap,.end .wrap{grid-template-columns:minmax(0,1fr)}
+  .steps{grid-template-columns:minmax(0,1fr)}
+  .photo{margin-inline:10px}
+  .bubble{right:10px}
+}
+@media (max-width:520px){
+  .wrap{padding-inline:18px}
+  .sticker{width:118px;height:118px;left:-6px;bottom:-26px}
+  .sticker b{font-size:2rem}
+  .big{grid-template-columns:minmax(0,1fr)}
+  .meter{padding:22px}
+  section{padding-block:72px}
+  .shock-img img{aspect-ratio:1}
+  .bar .btn span{display:none}
+}
+@media (prefers-reduced-motion:no-preference){
+  .sticker{animation:wob 5s ease-in-out infinite}
+  @keyframes wob{0%,100%{transform:rotate(-10deg)}50%{transform:rotate(-4deg) scale(1.03)}}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.btn:hover{transform:none}}
+</style>
+
+<header class="bar">
+  <div class="wrap">
+    <a class="logo" href="#"><i><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0F1636" stroke-width="2.6" stroke-linecap="round"><path d="M3 8h11a3 3 0 1 0-3-3M3 14h15a3 3 0 1 1-3 3M3 20h7"/></svg></i>Thermo-Propre</a>
+    <nav><a href="#resultat">Résultat</a><a href="#prix">Prix</a><a href="#comment">Comment ça marche</a><a href="#faq">Questions</a></nav>
+    <a class="btn btn-sun" href="#rdv"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg><span class="num">514 555-0142</span></a>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="wrap">
+    <div>
+      <h1>On lave vos climatiseurs. <span>Pour de vrai.</span></h1>
+      <p>Pas juste les filtres : on démonte, on rince le serpentin et la turbine, et l'eau noire finit dans notre seau, pas sur votre mur.</p>
+      <div class="ctas">
+        <a class="btn btn-sun" href="#prix">Voir mon prix</a>
+        <a class="ph num" href="#rdv">ou appelez le 514 555-0142</a>
+      </div>
+      <div class="chips"><span>Montréal, Laval, Rive-Sud</span><span>Prix fixe</span><span>Zéro dégât</span><span>Satisfait ou on repasse</span></div>
+    </div>
+    <div class="photo">
+      <img src="img/tech.jpg" alt="Technicien qui nettoie un climatiseur mural avec une housse de récupération dans un salon montréalais">
+      <div class="sticker"><div><small>à partir de</small><b>109 $</b><small>par appareil</small></div></div>
+    </div>
+  </div>
+</div>
+
+<section class="shock" id="resultat">
+  <div class="wrap">
+    <div class="shock-img">
+      <img src="img/rincage.jpg" alt="Eau sale qui s'écoule du serpentin pendant le rinçage, récupérée dans une housse" loading="lazy">
+      <div class="bubble">Cette eau-là passait dans l'air de votre salon.</div>
+    </div>
+    <div>
+      <h2>Regardez ce qui sort de votre appareil</h2>
+      <p class="l">Poussière, pollen, bactéries, moisissure : tout ça s'accroche au serpentin humide et à la turbine. Résultat, une odeur de renfermé, moins d'air froid et une facture d'Hydro plus salée.</p>
+      <div class="pair">
+        <figure class="a"><img src="img/sale.jpg" alt="Turbine encrassée avant nettoyage" loading="lazy"><figcaption>Avant</figcaption></figure>
+        <figure class="b"><img src="img/propre.jpg" alt="Turbine propre après nettoyage" loading="lazy"><figcaption>Après</figcaption></figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="price" id="prix">
+  <div class="wrap price-grid">
+    <div>
+      <h2>Combien ça coûte? Glissez.</h2>
+      <p class="l">Plus vous faites nettoyer d'appareils pendant la même visite, moins chacun coûte. Le déplacement est inclus à moins de 20 km de Montréal.</p>
+      <div class="tier-row"><span>1 app. <b>139 $</b></span><span>2 app. <b>129 $</b></span><span>3-4 app. <b>119 $</b></span><span>5+ app. <b>109 $</b></span></div>
+    </div>
+    <div class="meter">
+      <label for="n">Nombre d'appareils <output id="n-out" class="num">3</output></label>
+      <input type="range" id="n" min="1" max="8" value="3">
+      <div class="ticks" aria-hidden="true"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span></div>
+      <div class="big">
+        <div class="pu"><small>Par appareil</small><b id="pu">119 $</b></div>
+        <div class="tot"><small>Total avec taxes</small><b id="tot">410,46 $</b></div>
+      </div>
+      <p class="save" id="save"></p>
+      <p class="extras">Options : désinfection +39 $/app., anti-moisissure +25 $/app., unité extérieure +59 $, installation à plus de 3 m +25 $/app. De 20 à 40 km : +30 $.</p>
+    </div>
+  </div>
+</section>
+
+<section class="how" id="comment">
+  <div class="wrap">
+    <h2>Trois étapes, zéro casse-tête</h2>
+    <ol class="steps">
+      <li><h3>Vous réservez</h3><p>Un appel ou le formulaire. On vous propose deux plages horaires dans la semaine.</p></li>
+      <li><h3>On nettoie</h3><p>Environ une heure par appareil. Housse étanche, bâche au sol, rinçage complet.</p></li>
+      <li><h3>Vous respirez</h3><p>On teste l'appareil devant vous, en froid et en chaud. Vous payez à la fin.</p></li>
+    </ol>
+  </div>
+</section>
+
+<section class="zone">
+  <div class="wrap">
+    <div>
+      <h2>On se déplace chez vous</h2>
+      <p>Gratuit à moins de 20 km de Montréal. De 20 à 40 km, on ajoute 30 $, c'est tout.</p>
+      <div class="cities">
+        <span>Montréal</span><span>Laval</span><span>Longueuil</span><span>Brossard</span><span>Dorval</span><span>Saint-Laurent</span><span>Verdun</span>
+        <span class="b">Terrebonne +30 $</span><span class="b">Châteauguay +30 $</span><span class="b">Vaudreuil +30 $</span>
+      </div>
+    </div>
+    <img src="img/exterieur.jpg" alt="Unité extérieure de thermopompe près d'un triplex montréalais" loading="lazy">
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap faq">
+    <h2>Vos questions</h2>
+    <details><summary>C'est vraiment nécessaire chaque année?</summary><p>Oui. Une fois par an au minimum, deux fois si votre thermopompe chauffe l'hiver. Laver les filtres vous-même aide, mais ne touche pas au serpentin ni à la turbine.</p></details>
+    <details><summary>Ça va mouiller mon mur?</summary><p>Non. La housse étanche récupère toute l'eau dans un seau. On protège aussi le plancher.</p></details>
+    <details><summary>Mon appareil sent le moisi, vous pouvez régler ça?</summary><p>Oui, c'est justement le cas le plus fréquent. On recommande alors le traitement anti-moisissure (+25 $ par appareil).</p></details>
+    <details><summary>Vous faites les recharges de gaz?</summary><p>Non, on fait le nettoyage seulement. On vous avertit si on remarque un problème de réfrigérant.</p></details>
+  </div>
+</section>
+
+<section class="end" id="rdv">
+  <div class="wrap">
+    <div>
+      <h2>Prêt à respirer mieux?</h2>
+      <div class="phone num">514 555-0142</div>
+      <p style="font-weight:700;margin-top:6px">Lundi au samedi, 8 h à 18 h</p>
+    </div>
+    <form id="f" novalidate>
+      <label for="nom">Votre nom<input type="text" id="nom" autocomplete="name"></label>
+      <label for="tel">Téléphone<input type="tel" id="tel" autocomplete="tel"></label>
+      <label for="nb">Nombre d'appareils<select id="nb"><option>1</option><option>2</option><option selected>3</option><option>4</option><option>5 et plus</option></select></label>
+      <button class="btn" type="submit">Je veux être rappelé</button>
+      <p class="msg" id="msg" hidden></p>
+    </form>
+  </div>
+</section>
+
+<footer><div class="wrap"><span>© Thermo-Propre (nom de travail)</span><span>Site d'exemple : le formulaire n'envoie rien pour l'instant.</span></div></footer>
+
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const pu = n => n >= 5 ? 109 : n >= 3 ? 119 : n === 2 ? 129 : 139;
+  const money = v => v.toLocaleString("fr-CA", {minimumFractionDigits:2, maximumFractionDigits:2}) + " $";
+  function upd(){
+    const n = +$("n").value, p = pu(n), sub = Math.max(120, n*p);
+    $("n-out").textContent = n;
+    $("pu").textContent = p + " $";
+    $("tot").textContent = money(sub * 1.14975);
+    const saved = n*139 - n*p;
+    $("save").textContent = saved ? `Vous économisez ${saved} $ par rapport au prix à l'unité.` : "Ajoutez un 2e appareil et chacun passe à 129 $.";
+  }
+  $("n").addEventListener("input", upd); upd();
+  $("f").addEventListener("submit", e => {
+    e.preventDefault();
+    const m = $("msg"); m.hidden = false;
+    m.textContent = $("tel").value.trim()
+      ? "Merci! Sur ce site d'exemple, la demande n'est pas encore envoyée."
+      : "Ajoutez votre numéro de téléphone pour qu'on puisse vous rappeler.";
+  });
+})();
+</script>

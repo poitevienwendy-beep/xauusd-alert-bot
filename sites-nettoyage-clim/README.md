@@ -14,5 +14,13 @@ options, zones A/B, TPS 5 % + TVQ 9,975 %, minimum 120 $). Ces montants sont enc
 | `b-la-turbine.html` | Curseur avant/après sur une turbine encrassée (canvas). Signes d'encrassement, 3 niveaux de nettoyage. |
 | `c-deux-saisons.html` | Année de la thermopompe au Québec mois par mois ; fenêtres printemps/automne, coût annuel. |
 
+## 2ᵉ série — avec photos (dossier `img/`, générées avec Higgsfield)
+
+| Fichier | Idée centrale |
+|---|---|
+| `d-premium.html` | Haut de gamme : photo plein écran, bleu nuit et laiton, comparateur avant/après photo, calculateur. |
+| `e-energique.html` | Entreprise locale sympathique : cobalt et jaune, pastille de prix, curseur de prix géant. |
+| `f-air-sain.html` | Santé de la famille : blanc et aqua, réservation en 3 étapes avec soumission en direct. |
+
 Chaque page est un fichier HTML autonome : ouvrir directement dans un navigateur.
 Les formulaires n'envoient rien pour l'instant (à relier à un courriel ou un outil de réservation).
