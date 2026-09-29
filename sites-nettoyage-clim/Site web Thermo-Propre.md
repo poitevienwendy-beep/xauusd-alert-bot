@@ -24,6 +24,7 @@ Site vitrine pour l'entreprise de nettoyage de climatiseurs muraux et de thermop
 6. Réservation en 3 étapes avec soumission calculée en direct (appareils, état et options, coordonnées et plage horaire)
 7. Zone desservie, engagements, bande photo, prix, FAQ (8 questions), pied de page complet
 8. Sur téléphone : barre « Appeler / Réserver » fixée en bas
+9. Menu (trois barres) en haut à droite, sur ordinateur et mobile : accès direct à toutes les sections ; l'en-tête reste visible pendant le défilement
 
 ### Décisions prises
 - Pas d'icônes génériques ni d'émojis : remplacés par des illustrations dessinées dans la palette du site
