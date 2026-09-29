@@ -29,7 +29,7 @@ Site vitrine pour l'entreprise de nettoyage de climatiseurs muraux et de thermop
 - Pas d'icônes génériques ni d'émojis : remplacés par des illustrations dessinées dans la palette du site
 - Photos réalistes : la tête murale est installée près du plafond, le technicien travaille sur un escabeau
 - La 2e photo du déroulement montre la fin de visite avec la cliente (photos avant/après sur tablette), pas le nettoyage une deuxième fois
-- « Ce qu'on retire » : les trois photos montrent le même appareil, avec une saleté modérée et crédible (2 à 3 ans sans entretien) et une légende honnête. À remplacer par de vraies photos avant/après des premiers clients (avec leur accord)
+- « Ce qu'on retire » : les trois photos montrent le même appareil, avec une saleté légère et crédible (environ un an sans nettoyage professionnel) et une légende honnête. À remplacer par de vraies photos avant/après des premiers clients (avec leur accord)
 
 ## À compléter avant la mise en ligne
 - [ ] Vrais prix (dans le vault) : le site utilise pour l'instant la grille du skill devis-clim, marquée EXEMPLE : 139 / 129 / 119 / 109 $ par appareil ; options +39 $ désinfection, +25 $ anti-moisissure, +25 $ accès difficile, +59 $ unité extérieure ; zone B +30 $ ; TPS + TVQ ; minimum 120 $
