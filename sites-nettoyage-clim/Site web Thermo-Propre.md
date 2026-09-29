@@ -31,6 +31,7 @@ Site vitrine pour l'entreprise de nettoyage de climatiseurs muraux et de thermop
 - La 2e photo du déroulement montre la fin de visite avec la cliente (photos avant/après sur tablette), pas le nettoyage une deuxième fois
 - Inspiré de gorrie.com : « Comment se passe la visite » raconté au défilement (sur ordinateur, la photo reste fixe et change à chaque étape ; sur mobile, une photo par étape), bande des marques de thermopompes qui défile, et engagements en deux bandeaux inclinés
 - Les photos du déroulement suivent le même appareil du début à la fin (filtre, rinçage, résultat)
+- Inspiré de pureclim.com : rapport d'entretien daté avec photos avant/après remis après chaque visite (argument garantie du fabricant), section « Pour qui ? » avec bloc immeubles et copropriétés (soumission de volume dès 10 unités), bannière « Tarifs de lancement », engagements concrets (pas de vendeur, rappel dans la journée, rapport après chaque visite)
 - « Ce qu'on retire » : les trois photos montrent le même appareil, avec une saleté légère et crédible (environ un an sans nettoyage professionnel) et une légende honnête. À remplacer par de vraies photos avant/après des premiers clients (avec leur accord)
 
 ## À compléter avant la mise en ligne
@@ -40,6 +41,8 @@ Site vitrine pour l'entreprise de nettoyage de climatiseurs muraux et de thermop
 - [ ] Heures d'ouverture et villes desservies réelles
 - [ ] Où envoyer les demandes de réservation (courriel ou outil de réservation) : le formulaire n'envoie rien pour l'instant
 - [ ] Mise en ligne (Netlify est connecté)
+- [ ] Confirmer les engagements affichés : rappel dans la journée, pas de vendeur, rapport envoyé le jour même, seuil de 10 unités pour la soumission de volume
+- [ ] Définir l'offre de lancement (durée, conditions) et l'outil qui produira le rapport d'entretien (ex. Jobber)
 
 Pour mémoire, le plan d'affaires suggère une grille alignée sur le marché québécois après le lancement : 190 / 170 / 155 / 140 $.
 

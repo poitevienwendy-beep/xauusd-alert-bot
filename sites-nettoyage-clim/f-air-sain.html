@@ -39,7 +39,8 @@ p{margin:0}
 .top .wrap{display:flex;justify-content:space-between;align-items:center;gap:16px;padding-block:20px}
 .logo{display:flex;align-items:center;gap:10px;font-family:var(--f-display);font-size:1.4rem;color:var(--deep);text-decoration:none}
 .logo svg{width:34px;height:34px}
-.top nav{display:flex;gap:28px;font-weight:600;color:var(--muted)}
+.top nav{display:flex;gap:22px;font-weight:600;color:var(--muted);white-space:nowrap}
+.logo,.top .btn{white-space:nowrap}
 .top nav a{text-decoration:none;color:inherit}
 .top nav a:hover{color:var(--teal)}
 .top .btn{padding:10px 18px}
@@ -218,6 +219,51 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px 
 .pl-2{background:var(--teal);transform:rotate(1.5deg);margin-top:-6px}
 .pledge-note{margin-top:44px;color:var(--muted);max-width:70ch}
 
+/* bannière offre de lancement */
+.launch{background:var(--deep);color:#fff;font-size:.92rem}
+.launch .wrap{display:flex;align-items:center;justify-content:center;gap:10px 18px;flex-wrap:wrap;padding-block:10px;position:relative;padding-right:48px}
+.launch b{color:#fff}
+.launch a{color:#fff;font-weight:700;text-underline-offset:3px}
+.launch button{position:absolute;right:16px;top:50%;transform:translateY(-50%);background:none;border:0;color:#BFD7D4;font:inherit;font-size:1.3rem;line-height:1;cursor:pointer;padding:6px}
+.launch button:hover{color:#fff}
+
+/* rapport d'entretien */
+.report{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:64px;align-items:center}
+.report-txt p{margin-top:14px;color:var(--muted);font-size:1.08rem}
+.report-txt ul{margin:22px 0 0;padding:0;list-style:none;display:grid;gap:10px}
+.report-txt li{display:grid;grid-template-columns:22px minmax(0,1fr);gap:10px;color:var(--ink)}
+.report-txt li::before{content:"";width:14px;height:2px;background:var(--teal);margin-top:12px}
+.sheet{background:var(--white);border:1px solid var(--line);border-radius:20px;padding:28px;box-shadow:0 30px 60px -34px rgba(10,54,52,.45);display:grid;gap:18px;font-size:.92rem}
+.sheet-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;border-bottom:2px solid var(--deep);padding-bottom:14px}
+.sheet-head b{font-family:var(--f-display);font-size:1.35rem;color:var(--deep);font-weight:400;display:block}
+.sheet-head span{color:var(--muted);font-size:.85rem}
+.sheet-meta{text-align:right;color:var(--muted);font-size:.85rem;font-variant-numeric:tabular-nums}
+.sheet-rows{display:grid;grid-template-columns:auto minmax(0,1fr);gap:6px 18px}
+.sheet-rows dt{color:var(--muted)}
+.sheet-rows dd{margin:0;color:var(--ink);font-weight:600}
+.sheet-checks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 18px;margin:0;padding:0;list-style:none}
+.sheet-checks li{display:flex;gap:8px;align-items:center}
+.sheet-checks li::before{content:"";width:12px;height:12px;border-radius:3px;background:var(--teal);flex:none}
+.sheet-photos{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sheet-photos figure{margin:0;display:grid;gap:6px}
+.sheet-photos img{border-radius:10px;aspect-ratio:4/3;object-fit:cover;width:100%}
+.sheet-photos figcaption{font-size:.8rem;color:var(--muted);font-weight:600}
+.sheet-foot{display:flex;justify-content:space-between;gap:16px;border-top:1px solid var(--line);padding-top:12px;color:var(--muted);font-size:.82rem}
+
+/* pour qui */
+.who{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px;margin-top:36px}
+.who-item{border-top:3px solid var(--teal);padding-top:18px;display:grid;gap:8px;align-content:start}
+.who-item p{color:var(--muted)}
+.volume{margin-top:40px;background:var(--mist);border-radius:28px;padding:32px 36px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:20px 40px}
+.volume h3{font-size:1.5rem}
+.volume p{color:var(--muted);margin-top:6px;max-width:58ch}
+
+/* engagements concrets */
+.pledge-list{margin-top:36px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.pledge-list div{display:grid;gap:6px}
+.pledge-list b{color:var(--deep)}
+.pledge-list span{color:var(--muted);font-size:.95rem}
+
 /* pied de page */
 .foot{background:var(--deep);color:#BFD7D4}
 .foot .wrap{display:grid;grid-template-columns:minmax(0,1.4fr) repeat(3,minmax(0,1fr));gap:32px;padding-block:56px 32px}
@@ -232,7 +278,12 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px 
 /* barre mobile */
 .mbar{display:none}
 
+@media (max-width:1200px){
+  .top nav{display:none}
+}
 @media (max-width:960px){
+  .report{grid-template-columns:minmax(0,1fr);gap:36px}
+  .who,.pledge-list{grid-template-columns:minmax(0,1fr)}
   .zone{grid-template-columns:minmax(0,1fr)}
   .story{grid-template-columns:minmax(0,1fr);gap:0}
   .story-media{display:none}
@@ -247,6 +298,10 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px 
   body{padding-bottom:76px}
 }
 @media (max-width:560px){
+  .sheet{padding:20px}
+  .sheet-checks{grid-template-columns:minmax(0,1fr)}
+  .volume{padding:24px}
+  .launch .wrap{font-size:.85rem;justify-content:flex-start}
   .track span{font-size:1.25rem}
   .track{gap:40px;padding-right:40px;animation-duration:36s}
   .pl{padding:18px 40px;gap:8px 28px}
@@ -258,7 +313,6 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px 
   .foot .wrap{grid-template-columns:minmax(0,1fr)}
 }
 @media (max-width:960px){
-  .top nav{display:none}
   .hero .wrap,.intro,.book,.two{grid-template-columns:minmax(0,1fr)}
   .found,.benefits{grid-template-columns:minmax(0,1fr)}
   .found img{aspect-ratio:3/2}
@@ -279,10 +333,18 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px 
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.track{animation:none;flex-wrap:wrap;justify-content:center;gap:12px 40px;padding:0 16px}.marquee{flex-wrap:wrap;justify-content:center;-webkit-mask-image:none;mask-image:none}.track[aria-hidden]{display:none}.story-frame img,.step-txt{transition:none}}
 </style>
 
+<div class="launch" id="launch">
+  <div class="wrap">
+    <span><b>Tarifs de lancement</b> sur votre premier nettoyage, pour nos premiers clients.</span>
+    <a href="#reserver">Réserver maintenant</a>
+    <button type="button" id="launch-x" aria-label="Fermer l'annonce">&times;</button>
+  </div>
+</div>
+
 <header class="top">
   <div class="wrap">
     <a class="logo" href="#"><svg viewBox="0 0 34 34" fill="none"><circle cx="17" cy="17" r="17" fill="#EDF6F4"/><path d="M8 13h12a3 3 0 1 0-3-3M8 18h15a3 3 0 1 1-3 3M8 23h7" stroke="#0F6E69" stroke-width="2.2" stroke-linecap="round"/></svg>Thermo-Propre</a>
-    <nav><a href="#trouve">Pourquoi nettoyer</a><a href="#deroulement">Déroulement</a><a href="#prix">Prix</a><a href="#zone">Secteurs</a><a href="#faq">Questions</a></nav>
+    <nav><a href="#trouve">Pourquoi nettoyer</a><a href="#deroulement">Déroulement</a><a href="#prix">Prix</a><a href="#pour-qui">Immeubles</a><a href="#zone">Secteurs</a><a href="#faq">Questions</a></nav>
     <a class="btn btn-teal" href="#reserver"><span>Réserver en ligne</span></a>
   </div>
 </header>
@@ -353,6 +415,40 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px 
   </div>
 </section>
 
+<section id="rapport" style="padding-top:0">
+  <div class="wrap report">
+    <div class="report-txt">
+      <h2>Un rapport d'entretien après chaque visite</h2>
+      <p>Le jour même, vous recevez par courriel un rapport daté pour chaque appareil nettoyé, avec les photos avant et après.</p>
+      <ul>
+        <li><span>Gardez-le pour votre garantie : plusieurs fabricants demandent un entretien régulier et documenté. Vérifiez les conditions de la vôtre.</span></li>
+        <li><span>Vous savez exactement ce qui a été fait, pièce par pièce.</span></li>
+        <li><span>Un historique utile si vous vendez votre maison ou votre immeuble.</span></li>
+        <li><span>On vous rappelle la date recommandée pour le prochain nettoyage.</span></li>
+      </ul>
+    </div>
+    <article class="sheet" aria-label="Exemple de rapport d'entretien">
+      <div class="sheet-head">
+        <div><b>Rapport d'entretien</b><span>Nettoyage de climatiseurs muraux</span></div>
+        <div class="sheet-meta">N° 2026-0142<br>14 octobre 2026</div>
+      </div>
+      <dl class="sheet-rows">
+        <dt>Adresse</dt><dd>Montréal (exemple)</dd>
+        <dt>Appareil</dt><dd>Tête murale, salon</dd>
+        <dt>État à l'arrivée</dt><dd>Poussière sur la turbine et les filtres</dd>
+      </dl>
+      <ul class="sheet-checks">
+        <li>Filtres lavés</li><li>Serpentin rincé</li><li>Turbine nettoyée</li><li>Bac et drain désinfectés</li><li>Drain testé</li><li>Essai en froid et en chaud</li>
+      </ul>
+      <div class="sheet-photos">
+        <figure><img src="img/meme-turbine.jpg" alt="Photo avant : turbine poussiéreuse" loading="lazy"><figcaption>Avant</figcaption></figure>
+        <figure><img src="img/meme-apres.jpg" alt="Photo après : turbine propre" loading="lazy"><figcaption>Après</figcaption></figure>
+      </div>
+      <div class="sheet-foot"><span>Prochain nettoyage recommandé : printemps 2027</span><span>Technicien : signature</span></div>
+    </article>
+  </div>
+</section>
+
 <section class="mist" style="padding-block:80px">
   <div class="wrap">
     <h2>Quand faire nettoyer votre appareil</h2>
@@ -360,6 +456,21 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px 
     <div class="seasons">
       <div class="season sp"><span class="when">Avril et mai</span><h3>Avant la climatisation</h3><p>On retire la poussière accumulée pendant l'hiver de chauffage, avant que l'humidité de l'été la transforme en dépôt.</p></div>
       <div class="season au"><span class="when">Septembre et octobre</span><h3>Avant le chauffage</h3><p>On élimine l'humidité et la moisissure de l'été, pour que la première bouffée d'air chaud ne sente pas le renfermé.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="pour-qui">
+  <div class="wrap">
+    <h2>Pour qui ?</h2>
+    <div class="who">
+      <div class="who-item"><h3>Propriétaires de maison</h3><p>Une ou plusieurs têtes murales, un air plus sain pour la famille et un appareil qui dure plus longtemps.</p></div>
+      <div class="who-item"><h3>Plex et immeubles locatifs</h3><p>Tous les logements nettoyés en une visite planifiée, un rapport par appareil pour votre suivi.</p></div>
+      <div class="who-item"><h3>Syndicats de copropriété</h3><p>Un entretien coordonné pour l'ensemble des unités, avec un calendrier convenu à l'avance.</p></div>
+    </div>
+    <div class="volume">
+      <div><h3>Immeubles et copropriétés</h3><p>Plus vous avez d'appareils, plus le prix par tête baisse. Pour 10 unités et plus, on vous prépare une soumission de volume sur mesure.</p></div>
+      <a class="btn btn-teal" href="#reserver">Demander une soumission de volume</a>
     </div>
   </div>
 </section>
@@ -459,6 +570,11 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px 
       <div class="pl pl-2"><span>Satisfait ou on repasse</span><span>Vous payez après</span></div>
     </div>
     <p class="pledge-note">Le montant de la soumission est garanti 30 jours. Housse étanche et bâche au sol : vos murs et vos planchers restent secs. Si le résultat ne vous convient pas, on revient sans frais. Et vous payez seulement une fois l'appareil testé devant vous.</p>
+    <div class="pledge-list">
+      <div><b>Pas de vendeur</b><span>Vous parlez directement au technicien qui viendra chez vous.</span></div>
+      <div><b>Rappel dans la journée</b><span>On vous propose deux plages horaires, vous choisissez.</span></div>
+      <div><b>Rapport après chaque visite</b><span>Photos avant et après, et date du prochain nettoyage recommandé.</span></div>
+    </div>
   </div>
 </section>
 
@@ -490,6 +606,7 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px 
         <details><summary>Les produits sont-ils sécuritaires?</summary><p>On utilise des nettoyants non corrosifs faits pour les serpentins, rincés à l'eau claire. La pièce peut être utilisée tout de suite après.</p></details>
         <details><summary>Combien de temps ça prend?</summary><p>Environ une heure par appareil, un peu plus s'il n'a jamais été nettoyé.</p></details>
         <details><summary>Est-ce que ça mouille?</summary><p>Non. Une housse étanche récupère toute l'eau de rinçage dans un seau.</p></details>
+        <details><summary>Le nettoyage aide-t-il pour ma garantie?</summary><p>Plusieurs fabricants demandent un entretien régulier pour honorer la garantie. Le rapport daté que vous recevez après chaque visite sert de preuve d'entretien. Vérifiez les conditions exactes de votre garantie.</p></details>
         <details><summary>Faites-vous le réfrigérant?</summary><p>Non, on fait le nettoyage seulement. On vous avertit si on remarque un problème.</p></details>
         <details><summary>Je lave déjà mes filtres, est-ce suffisant?</summary><p>C'est une bonne habitude, à faire chaque mois. Mais la poussière qui passe au travers se colle au serpentin et à la turbine, qu'on ne peut pas nettoyer sans démonter l'appareil.</p></details>
         <details><summary>Mon appareil sent le moisi, que faire?</summary><p>C'est le cas le plus fréquent. Choisissez « Odeur ou points noirs » dans la réservation : on vous conseillera le traitement anti-moisissure (+25 $ par appareil).</p></details>
@@ -559,6 +676,14 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px 
   };
   $("wiz").addEventListener("submit", e => e.preventDefault());
   sum(); show();
+
+  // bannière offre de lancement : fermeture mémorisée sur cet appareil
+  const launch = document.getElementById("launch");
+  try { if (localStorage.getItem("launch-closed") === "1") launch.hidden = true; } catch (e) {}
+  document.getElementById("launch-x").addEventListener("click", () => {
+    launch.hidden = true;
+    try { localStorage.setItem("launch-closed", "1"); } catch (e) {}
+  });
 
   // déroulement : la photo suit l'étape lue
   const frameImgs = document.querySelectorAll(".story-frame img");
