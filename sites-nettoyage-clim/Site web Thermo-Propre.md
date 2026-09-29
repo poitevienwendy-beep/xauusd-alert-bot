@@ -29,6 +29,8 @@ Site vitrine pour l'entreprise de nettoyage de climatiseurs muraux et de thermop
 - Pas d'icônes génériques ni d'émojis : remplacés par des illustrations dessinées dans la palette du site
 - Photos réalistes : la tête murale est installée près du plafond, le technicien travaille sur un escabeau
 - La 2e photo du déroulement montre la fin de visite avec la cliente (photos avant/après sur tablette), pas le nettoyage une deuxième fois
+- Inspiré de gorrie.com : « Comment se passe la visite » raconté au défilement (sur ordinateur, la photo reste fixe et change à chaque étape ; sur mobile, une photo par étape), bande des marques de thermopompes qui défile, et engagements en deux bandeaux inclinés
+- Les photos du déroulement suivent le même appareil du début à la fin (filtre, rinçage, résultat)
 - « Ce qu'on retire » : les trois photos montrent le même appareil, avec une saleté légère et crédible (environ un an sans nettoyage professionnel) et une légende honnête. À remplacer par de vraies photos avant/après des premiers clients (avec leur accord)
 
 ## À compléter avant la mise en ligne
