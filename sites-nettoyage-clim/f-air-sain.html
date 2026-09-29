@@ -49,10 +49,10 @@ p{margin:0}
 .hero h1{font-size:clamp(2.5rem,5.2vw,4.3rem)}
 .hero p.l{margin-top:22px;font-size:1.18rem;color:var(--muted);max-width:44ch}
 .hero .ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
-.hero-img{position:relative}
-.hero-img img{border-radius:40px 40px 40px 140px;aspect-ratio:5/4;object-fit:cover;width:100%}
-.float{position:absolute;left:-28px;bottom:28px;background:var(--white);border-radius:22px;padding:18px 20px;max-width:260px;box-shadow:0 24px 50px -24px rgba(10,54,52,.45);border-left:4px solid var(--teal)}
-.float i{width:44px;height:44px;border-radius:14px;background:var(--mist);display:grid;place-items:center}
+.hero-img{position:relative;margin-bottom:56px}
+.hero-img img{border-radius:40px 40px 40px 140px;aspect-ratio:5/4;object-fit:cover;object-position:25% 50%;width:100%}
+/* carte à cheval sur le bord bas de la photo : reste toujours sous le visage de l'enfant */
+.float{position:absolute;left:24px;bottom:0;transform:translateY(60%);width:max-content;max-width:min(280px,calc(100% - 48px));background:var(--white);border-radius:22px;padding:18px 20px;max-width:260px;box-shadow:0 24px 50px -24px rgba(10,54,52,.45);border-left:4px solid var(--teal)}
 .float b{display:block;color:var(--deep)}
 .float span{font-size:.9rem;color:var(--muted);line-height:1.35;display:block}
 .trust{display:flex;flex-wrap:wrap;gap:10px 26px;margin-top:34px;color:var(--muted);font-weight:600;font-size:.95rem}
@@ -217,6 +217,8 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px 
   body{padding-bottom:76px}
 }
 @media (max-width:560px){
+  .hero-img{margin-bottom:0}
+  .float{position:relative;left:auto;bottom:auto;transform:none;margin:-28px 0 0 14px;max-width:calc(100% - 28px)}
   .seasons,.promises{grid-template-columns:minmax(0,1fr)}
   .foot .wrap{grid-template-columns:minmax(0,1fr)}
 }
@@ -225,7 +227,7 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px 
   .hero .wrap,.intro,.book,.two{grid-template-columns:minmax(0,1fr)}
   .found,.benefits{grid-template-columns:minmax(0,1fr)}
   .found img{aspect-ratio:3/2}
-  .float{left:14px;bottom:-24px}
+  .float{left:14px}
   .summary{position:static}
 }
 @media (max-width:560px){
