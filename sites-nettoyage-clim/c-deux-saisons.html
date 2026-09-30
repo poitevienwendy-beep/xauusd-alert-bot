@@ -1,0 +1,318 @@
+<title>Thermo-Propre Deux saisons</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Hanken+Grotesk:wght@400;500;600;700&display=swap">
+<style>
+/* Layout : l'année de la thermopompe, mois par mois, occupe le hero ; les deux fenêtres de nettoyage structurent tout le reste de la page. */
+:root{
+  --bg:#F2F5F8;        /* ciel d'hiver */
+  --surface:#FFFFFF;
+  --ink:#1A2931;
+  --muted:#5A6B75;
+  --line:#D2DCE3;
+  --heat:#C8572A;      /* mode chauffage */
+  --cold:#2C6DA6;      /* mode climatisation */
+  --spruce:#1E4D40;    /* nettoyage */
+  --spruce-soft:#DCEAE4;
+  --f-display:"Instrument Serif", Georgia, "Times New Roman", serif;
+  --f-body:"Hanken Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --s--1:.875rem; --s0:1rem; --s1:1.25rem; --s2:1.7rem; --s3:2.6rem; --s4:clamp(2.8rem,6.6vw,5.2rem);
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#10181D; --surface:#172229; --ink:#E6EDF1; --muted:#9BACB6; --line:#29363E; --heat:#E7784A; --cold:#5E9BD3; --spruce:#7CC6AC; --spruce-soft:#1C3530; color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --bg:#10181D; --surface:#172229; --ink:#E6EDF1; --muted:#9BACB6; --line:#29363E; --heat:#E7784A; --cold:#5E9BD3; --spruce:#7CC6AC; --spruce-soft:#1C3530; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:var(--s0);line-height:1.6;margin:0}
+.wrap{max-width:1140px;margin:0 auto;padding-inline:20px}
+:focus-visible{outline:3px solid var(--spruce);outline-offset:3px}
+h1,h2,h3{font-family:var(--f-display);font-weight:400;text-wrap:balance;margin:0;line-height:1.02}
+h2{font-size:var(--s3);letter-spacing:-.01em}
+h3{font-size:var(--s2)}
+p{margin:0;max-width:62ch}
+
+.top{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px 24px;padding-block:20px}
+.brand{font-family:var(--f-display);font-size:1.6rem}
+.top .ph{font-weight:600;font-variant-numeric:tabular-nums}
+
+.hero{padding-block:24px 56px}
+.hero h1{font-size:var(--s4);letter-spacing:-.015em;max-width:17ch}
+.hero .sub{margin-top:18px;font-size:var(--s1);color:var(--muted);max-width:52ch}
+
+/* l'année */
+.year{margin-top:44px;background:var(--surface);padding:24px 20px 20px;border-radius:4px}
+.year-head{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px 24px;align-items:baseline;margin-bottom:18px}
+.year-head b{font-weight:600}
+.legend{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:var(--s--1);color:var(--muted)}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:2px;margin-right:6px;vertical-align:-1px}
+.months{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:6px;position:relative}
+.m{appearance:none;border:0;background:transparent;color:var(--ink);font:inherit;padding:0;cursor:pointer;display:grid;grid-template-rows:170px auto;gap:8px;position:relative}
+.m .col{position:relative;display:flex;align-items:flex-end;border-radius:3px}
+.m.win .col{background:var(--spruce-soft)}
+.m .bar{width:100%;border-radius:3px 3px 0 0;transition:filter .15s}
+.m .bar.h{background:var(--heat)}
+.m .bar.c{background:var(--cold)}
+.m .bar.n{background:var(--line)}
+.m span{font-size:var(--s--1);font-weight:600;text-align:center}
+.m[aria-pressed=true] span{background:var(--ink);color:var(--surface);border-radius:3px}
+.m:hover .bar{filter:brightness(1.1)}
+.m .now{position:absolute;top:6px;left:50%;transform:translateX(-50%);font-size:.72rem;font-weight:700;color:var(--spruce);white-space:nowrap}
+.wins{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:6px;margin-top:10px;font-size:var(--s--1);font-weight:600;color:var(--spruce)}
+.wins div{border-top:2px solid var(--spruce);padding-top:6px}
+.detail{margin-top:20px;border-top:1px solid var(--line);padding-top:16px;display:grid;grid-template-columns:minmax(0,160px) minmax(0,1fr);gap:8px 24px}
+.detail h3{font-size:var(--s2)}
+.detail p{color:var(--muted)}
+.detail .mode{font-size:var(--s--1);font-weight:700}
+.cap{margin-top:12px;font-size:.8rem;color:var(--muted)}
+
+/* bandeau « c'est le moment » */
+.now-band{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:16px 32px;margin-top:28px;padding:20px 22px;background:var(--spruce);color:var(--bg);border-radius:4px}
+.now-band p{font-size:var(--s1);max-width:54ch}
+.now-band a{background:var(--bg);color:var(--ink);text-decoration:none;font-weight:700;padding:12px 18px;border-radius:999px;white-space:nowrap}
+
+section{padding-block:72px;border-top:1px solid var(--line)}
+.seasons{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:48px;margin-top:36px}
+.season{display:grid;gap:14px;align-content:start}
+.season .when{font-weight:700}
+.season.sp .when{color:var(--cold)}
+.season.au .when{color:var(--heat)}
+.season ul{margin:0;padding-left:20px;display:grid;gap:6px}
+.season p{color:var(--muted)}
+
+.prices{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:48px;margin-top:36px;align-items:start}
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums}
+th,td{padding:11px 6px;border-bottom:1px solid var(--line);text-align:left}
+th{font-size:var(--s--1);font-weight:600;color:var(--muted)}
+td:last-child,th:last-child{text-align:right;white-space:nowrap}
+.year-cost{background:var(--surface);padding:22px;border-radius:4px;display:grid;gap:14px}
+.year-cost label{font-weight:600;font-size:var(--s--1);display:grid;gap:6px}
+.year-cost select{font:inherit;color:var(--ink);background:var(--surface);border:1.5px solid var(--line);border-radius:4px;padding:10px}
+.yc-row{display:flex;justify-content:space-between;gap:12px;font-variant-numeric:tabular-nums}
+.yc-total{font-family:var(--f-display);font-size:var(--s3);line-height:1;font-variant-numeric:tabular-nums}
+.small{font-size:.8rem;color:var(--muted)}
+
+.book{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:48px;align-items:start}
+form{display:grid;gap:16px}
+fieldset{border:0;padding:0;margin:0;display:flex;flex-wrap:wrap;gap:8px}
+legend{font-weight:600;font-size:var(--s--1);margin-bottom:8px}
+.pill input{position:absolute;opacity:0;pointer-events:none}
+.pill span{display:inline-block;border:1.5px solid var(--line);padding:9px 14px;border-radius:999px;cursor:pointer;font-weight:600;font-size:var(--s--1)}
+.pill input:checked + span{background:var(--spruce);border-color:var(--spruce);color:var(--bg)}
+.pill input:focus-visible + span{outline:3px solid var(--spruce);outline-offset:2px}
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px}
+form label.f{display:grid;gap:6px;font-weight:600;font-size:var(--s--1)}
+input[type=text],input[type=tel]{font:inherit;color:var(--ink);background:var(--surface);border:1.5px solid var(--line);border-radius:4px;padding:11px}
+.go{justify-self:start;font:inherit;font-weight:700;border:0;background:var(--ink);color:var(--bg);padding:14px 22px;border-radius:999px;cursor:pointer}
+.go:hover{background:var(--spruce)}
+.msg{font-size:var(--s--1);border-left:3px solid var(--spruce);padding:8px 12px;background:var(--surface)}
+footer{padding-block:28px 48px;border-top:1px solid var(--line);color:var(--muted);font-size:var(--s--1);display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 24px}
+
+@media (max-width:860px){
+  .seasons,.prices,.book{grid-template-columns:minmax(0,1fr)}
+  .m{grid-template-rows:120px auto}
+  .detail{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){
+  .months,.wins{gap:3px}
+  .m span{font-size:.7rem}
+  .m .now{font-size:.62rem}
+  .two{grid-template-columns:minmax(0,1fr)}
+  .year{padding-inline:12px}
+}
+@media (prefers-reduced-motion:no-preference){
+  .m .bar{animation:grow .7s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--i) * 45ms)}
+  @keyframes grow{from{transform:scaleY(.25);transform-origin:bottom}to{transform:scaleY(1);transform-origin:bottom}}
+}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <span class="brand">Thermo-Propre</span>
+    <span class="ph">514 555-0142</span>
+  </header>
+
+  <div class="hero">
+    <h1>Votre thermopompe travaille douze mois par année.</h1>
+    <p class="sub">Elle chauffe de novembre à mars, climatise en juillet et en août. On la nettoie pendant les deux accalmies : avant les chaleurs, et avant le premier gel.</p>
+
+    <div class="year">
+      <div class="year-head">
+        <b>Une année typique d'une tête murale à Montréal</b>
+        <div class="legend"><span><i style="background:var(--heat)"></i>Chauffage</span><span><i style="background:var(--cold)"></i>Climatisation</span><span><i style="background:var(--spruce-soft);box-shadow:inset 0 0 0 1px var(--spruce)"></i>Fenêtre de nettoyage</span></div>
+      </div>
+      <div class="months" id="months" role="group" aria-label="Choisir un mois"></div>
+      <div class="wins" aria-hidden="true">
+        <div style="grid-column:4 / span 2">Printemps</div>
+        <div style="grid-column:9 / span 2">Automne</div>
+      </div>
+      <div class="detail" aria-live="polite">
+        <div><h3 id="d-m">Septembre</h3><div class="mode" id="d-mode"></div></div>
+        <p id="d-t"></p>
+      </div>
+      <p class="cap">Hauteur des barres : sollicitation relative de l'appareil, à titre indicatif.</p>
+    </div>
+
+    <div class="now-band">
+      <p id="now-text">C'est la fenêtre d'automne. Réservez avant la première nuit sous zéro, quand tout le monde rallume le chauffage.</p>
+      <a href="#reserver" id="now-cta">Réserver l'automne</a>
+    </div>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <h2>Deux nettoyages, deux raisons différentes</h2>
+    <div class="seasons">
+      <div class="season sp">
+        <span class="when">Avril et mai</span>
+        <h3>Avant la climatisation</h3>
+        <p>Cinq mois de chauffage ont fait circuler toute la poussière de la maison dans l'appareil. On l'enlève avant que l'humidité de l'été la transforme en dépôt.</p>
+        <ul><li>Filtres, serpentin et turbine lavés</li><li>Drain testé avant la saison de condensation</li><li>Essai en mode climatisation</li></ul>
+      </div>
+      <div class="season au">
+        <span class="when">Septembre et octobre</span>
+        <h3>Avant le chauffage</h3>
+        <p>L'été humide laisse de l'eau stagnante dans le bac et sur le serpentin. Sans nettoyage, l'odeur de moisi part avec la première bouffée d'air chaud.</p>
+        <ul><li>Bac à condensat vidé et désinfecté</li><li>Turbine traitée si points noirs</li><li>Essai en mode chauffage</li></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="prix">
+  <div class="wrap">
+    <h2>Le prix d'une visite</h2>
+    <div class="prices">
+      <div class="tbl">
+        <table>
+          <thead><tr><th>Têtes nettoyées pendant la visite</th><th>Par tête</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>139 $</td></tr>
+            <tr><td>2</td><td>129 $</td></tr>
+            <tr><td>3 ou 4</td><td>119 $</td></tr>
+            <tr><td>5 et plus</td><td>109 $</td></tr>
+            <tr><td>Désinfection antibactérienne</td><td>+39 $ / tête</td></tr>
+            <tr><td>Traitement anti-moisissure</td><td>+25 $ / tête</td></tr>
+            <tr><td>Unité extérieure</td><td>+59 $</td></tr>
+            <tr><td>Accès à plus de 3 m</td><td>+25 $ / tête</td></tr>
+          </tbody>
+        </table>
+        <p class="small" style="margin-top:12px">Déplacement inclus à moins de 20 km de Montréal, +30 $ de 20 à 40 km. Prix avant TPS et TVQ.</p>
+      </div>
+      <div class="year-cost">
+        <label for="yc-n">Combien de têtes murales chez vous?
+          <select id="yc-n"><option value="1">1</option><option value="2">2</option><option value="3" selected>3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option></select>
+        </label>
+        <div class="yc-row"><span>Visite du printemps</span><span id="yc-sp"></span></div>
+        <div class="yc-row"><span>Visite d'automne</span><span id="yc-au"></span></div>
+        <div class="yc-row" style="border-top:1px solid var(--line);padding-top:10px"><span>Votre année, taxes incluses</span></div>
+        <div class="yc-total" id="yc-t"></div>
+        <p class="small">Calculé avec la grille ci-contre, sans options, secteur inclus.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="reserver">
+  <div class="wrap book">
+    <div>
+      <h2>Réserver votre saison</h2>
+      <p style="margin-top:14px;color:var(--muted)">Choisissez la saison et on vous rappelle avec deux plages horaires. Les semaines qui suivent le premier gel se remplissent vite.</p>
+      <p style="margin-top:18px;font-weight:600;font-variant-numeric:tabular-nums">514 555-0142 · lundi au samedi, 8 h à 18 h</p>
+    </div>
+    <form id="f" novalidate>
+      <fieldset>
+        <legend>Saison</legend>
+        <label class="pill"><input type="radio" name="s" id="s-au" value="automne" checked><span>Automne 2026</span></label>
+        <label class="pill"><input type="radio" name="s" id="s-sp" value="printemps"><span>Printemps 2027</span></label>
+        <label class="pill"><input type="radio" name="s" id="s-2" value="deux"><span>Les deux</span></label>
+      </fieldset>
+      <div class="two">
+        <label class="f" for="nom">Nom<input type="text" id="nom" autocomplete="name"></label>
+        <label class="f" for="tel">Téléphone<input type="tel" id="tel" autocomplete="tel"></label>
+      </div>
+      <label class="f" for="ville">Ville ou quartier<input type="text" id="ville"></label>
+      <button class="go" type="submit">Demander un rappel</button>
+      <p class="msg" id="msg" hidden></p>
+    </form>
+  </div>
+</section>
+
+<div class="wrap"><footer><span>Thermo-Propre, nom de travail. Site d'exemple.</span><span>Nettoyage seulement, sans manipulation de réfrigérant.</span></footer></div>
+
+<script>
+(() => {
+  const M = [
+    ["Janvier","h",95,"Chauffage à plein régime. L'appareil tourne presque sans arrêt, les filtres se chargent vite."],
+    ["Février","h",90,"Toujours en chauffage. Si l'air chaud sent la poussière brûlée, les filtres sont saturés."],
+    ["Mars","h",70,"Le chauffage ralentit. Pensez à réserver le nettoyage du printemps."],
+    ["Avril","n",30,"Fenêtre du printemps. L'appareil se repose : on enlève la poussière de tout l'hiver."],
+    ["Mai","n",18,"Dernier moment calme avant la climatisation. Les plages horaires partent vite en fin de mois."],
+    ["Juin","c",45,"Premières chaleurs. Un appareil propre refroidit la pièce plus vite."],
+    ["Juillet","c",88,"Climatisation maximale. L'humidité s'accumule dans le bac et sur le serpentin."],
+    ["Août","c",82,"Canicules et humidité : c'est le mois où la moisissure se forme dans la turbine."],
+    ["Septembre","n",28,"Fenêtre d'automne. On retire l'humidité de l'été avant qu'elle parte en odeur avec le chauffage."],
+    ["Octobre","h",40,"Premières nuits froides, le chauffage reprend. Dernier moment pour un nettoyage sans attente."],
+    ["Novembre","h",70,"Chauffage régulier. Un appareil encrassé consomme plus d'électricité pour le même confort."],
+    ["Décembre","h",90,"Plein hiver. Nettoyez les filtres vous-même une fois par mois."]
+  ];
+  const WIN = [3,4,8,9];
+  const modeLabel = {h:"Mode chauffage", c:"Mode climatisation", n:"Peu sollicitée"};
+  const now = new Date().getMonth();
+  const box = document.getElementById("months");
+  M.forEach(([name, mode, v], i) => {
+    const b = document.createElement("button");
+    b.type = "button"; b.className = "m" + (WIN.includes(i) ? " win" : "");
+    b.setAttribute("aria-pressed", i === now);
+    b.setAttribute("aria-label", name + ", " + modeLabel[mode].toLowerCase());
+    b.innerHTML = `<div class="col"><div class="bar ${mode}" style="height:${v}%;--i:${i}"></div>${i === now ? '<em class="now">Aujourd\'hui</em>' : ""}</div><span>${name.slice(0,3)}</span>`;
+    b.querySelector(".now")?.setAttribute("style","font-style:normal");
+    b.addEventListener("click", () => show(i));
+    box.appendChild(b);
+  });
+  function show(i){
+    box.querySelectorAll(".m").forEach((b, j) => b.setAttribute("aria-pressed", j === i));
+    const [name, mode, , t] = M[i];
+    document.getElementById("d-m").textContent = name;
+    const md = document.getElementById("d-mode");
+    md.textContent = WIN.includes(i) ? "Fenêtre de nettoyage" : modeLabel[mode];
+    md.style.color = WIN.includes(i) ? "var(--spruce)" : mode === "h" ? "var(--heat)" : mode === "c" ? "var(--cold)" : "var(--muted)";
+    document.getElementById("d-t").textContent = t;
+  }
+  show(now);
+
+  // bandeau selon la date du jour
+  const nt = document.getElementById("now-text"), nc = document.getElementById("now-cta");
+  const y = new Date().getFullYear();
+  if (now === 8 || now === 9) { nt.textContent = "C'est la fenêtre d'automne. Réservez avant la première nuit sous zéro, quand tout le monde rallume le chauffage."; nc.textContent = "Réserver l'automne"; }
+  else if (now === 3 || now === 4) { nt.textContent = "C'est la fenêtre du printemps. Réservez avant les premières chaleurs de juin."; nc.textContent = "Réserver le printemps"; document.getElementById("s-sp").checked = true; }
+  else if (now < 3 || now > 9) { nt.textContent = "Prochaine fenêtre : avril et mai. Réservez maintenant pour avoir le choix des plages horaires."; nc.textContent = "Réserver le printemps"; document.getElementById("s-sp").checked = true; }
+  else { nt.textContent = "Prochaine fenêtre : septembre et octobre. Réservez maintenant pour passer avant la cohue du premier gel."; nc.textContent = "Réserver l'automne"; }
+  document.querySelector("#s-au + span").textContent = "Automne " + (now > 9 ? y + 1 : y);
+  document.querySelector("#s-sp + span").textContent = "Printemps " + (now > 4 ? y + 1 : y);
+
+  // coût annuel
+  const pu = n => n >= 5 ? 109 : n >= 3 ? 119 : n === 2 ? 129 : 139;
+  const money = v => v.toLocaleString("fr-CA", {minimumFractionDigits:2, maximumFractionDigits:2}) + " $";
+  const sel = document.getElementById("yc-n");
+  function yc(){
+    const n = +sel.value, visit = n * pu(n);
+    document.getElementById("yc-sp").textContent = `${n} × ${pu(n)} $ = ${visit} $`;
+    document.getElementById("yc-au").textContent = `${n} × ${pu(n)} $ = ${visit} $`;
+    document.getElementById("yc-t").textContent = money(visit * 2 * 1.14975);
+  }
+  sel.addEventListener("change", yc); yc();
+
+  document.getElementById("f").addEventListener("submit", e => {
+    e.preventDefault();
+    const m = document.getElementById("msg"); m.hidden = false;
+    m.textContent = document.getElementById("tel").value.trim()
+      ? "Demande prête. Sur ce site d'exemple, rien n'est encore envoyé."
+      : "Ajoutez votre numéro de téléphone pour qu'on puisse vous rappeler.";
+  });
+})();
+</script>

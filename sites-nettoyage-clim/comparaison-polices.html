@@ -1,0 +1,151 @@
+<title>Comparaison des polices</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Figtree:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700&family=Sora:wght@400;600;700&display=swap">
+<style>
+/* Page de comparaison : même extrait du site Air sain, quatre couples de polices. Look clair assumé, comme le site. */
+:root{
+  color-scheme:light;
+  --white:#FFFFFF; --mist:#EDF6F4; --teal:#0F6E69; --deep:#0A3634; --ink:#1B2A2A; --muted:#557170; --line:#D4E5E1; --coral:#EE7B5B;
+  --ui:"Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--mist);color:var(--ink);font-family:var(--ui);line-height:1.6}
+.wrap{max-width:1180px;margin:0 auto;padding-inline:20px}
+header.page{padding-block:40px 24px}
+header.page h1{font-family:var(--ui);font-weight:700;font-size:clamp(1.6rem,3vw,2.2rem);color:var(--deep);margin:0}
+header.page p{margin:8px 0 0;color:var(--muted);max-width:62ch}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;padding-bottom:56px}
+.opt{background:var(--white);border-radius:28px;overflow:hidden;border:2px solid transparent;display:flex;flex-direction:column}
+.opt.pick{border-color:var(--teal)}
+.opt-top{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:16px 24px;border-bottom:1px solid var(--line);font-family:var(--ui)}
+.opt-top b{color:var(--deep);font-size:1.05rem}
+.opt-top span{color:var(--muted);font-size:.88rem}
+.tag{font-family:var(--ui);font-size:.78rem;font-weight:700;color:#fff;background:var(--deep);border-radius:999px;padding:3px 10px;white-space:nowrap}
+.demo{padding:28px 24px 8px;display:grid;gap:14px}
+.demo .logo{font-size:1.25rem;color:var(--deep)}
+.demo h2{margin:6px 0 0;font-size:clamp(1.9rem,3.4vw,2.6rem);line-height:1.08;color:var(--deep);text-wrap:balance}
+.demo p{margin:0;color:var(--muted);font-size:1rem;max-width:46ch}
+.demo .btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:4px}
+.demo .b1,.demo .b2{border-radius:999px;padding:11px 20px;font-weight:700;font-size:.95rem}
+.demo .b1{background:var(--teal);color:#fff}
+.demo .b2{border:1.5px solid var(--teal);color:var(--teal)}
+.demo .sec{margin-top:14px;padding-top:18px;border-top:1px solid var(--line);display:grid;gap:8px}
+.demo h3{margin:0;font-size:1.45rem;color:var(--deep);line-height:1.15}
+.demo .step{display:grid;grid-template-columns:40px minmax(0,1fr);gap:4px 14px}
+.demo .n{width:36px;height:36px;border-radius:50%;background:var(--teal);color:#fff;display:grid;place-items:center;font-weight:700;grid-row:span 2}
+.demo .step b{color:var(--deep);font-size:1.05rem}
+.demo .price{display:flex;align-items:baseline;gap:8px;margin-top:6px}
+.demo .price strong{font-size:2.2rem;color:var(--deep);line-height:1}
+.demo .price span{color:var(--muted);font-size:.9rem}
+.why{padding:14px 24px 22px;margin-top:auto;font-family:var(--ui);font-size:.92rem;color:var(--muted);display:grid;gap:12px}
+.why button{justify-self:start;font:inherit;font-weight:700;border:1.5px solid var(--teal);background:var(--white);color:var(--teal);border-radius:999px;padding:9px 18px;cursor:pointer}
+.opt.pick .why button{background:var(--teal);color:#fff}
+.why button:focus-visible{outline:3px solid var(--coral);outline-offset:2px}
+.choice{position:sticky;bottom:0;background:var(--deep);color:#fff;font-family:var(--ui);padding:14px 20px calc(14px + env(safe-area-inset-bottom,0px));text-align:center;font-weight:600}
+
+/* couples de polices */
+.f-a .d{font-family:"Young Serif", Georgia, serif;font-weight:400}
+.f-a .t{font-family:"Figtree", system-ui, sans-serif}
+.f-b .d{font-family:"Newsreader", Georgia, serif;font-weight:500;font-optical-sizing:auto}
+.f-b h2.d{font-weight:500;letter-spacing:-.01em}
+.f-b .t{font-family:"Figtree", system-ui, sans-serif}
+.f-c .d{font-family:"Bricolage Grotesque", system-ui, sans-serif;font-weight:700;letter-spacing:-.02em}
+.f-c .logo.d{font-weight:600}
+.f-c .t{font-family:"Figtree", system-ui, sans-serif}
+.f-d .d{font-family:"Sora", system-ui, sans-serif;font-weight:600;letter-spacing:-.02em}
+.f-d .t{font-family:"Sora", system-ui, sans-serif;font-weight:400}
+.f-d .demo p.t{font-size:.95rem}
+
+@media (max-width:860px){.grid{grid-template-columns:minmax(0,1fr)}}
+</style>
+
+<div class="wrap">
+  <header class="page">
+    <h1>Quelle police pour ton site ?</h1>
+    <p>Le même extrait du site Air sain, dans quatre couples de polices. Les couleurs et le texte ne changent pas, seules les polices changent. Touche « Je choisis celle-ci » sous ta préférée.</p>
+  </header>
+
+  <div class="grid">
+    <article class="opt f-a" data-name="A. Actuelle">
+      <div class="opt-top"><div><b>A. Actuelle</b><br><span>Young Serif pour les titres, Figtree pour le texte</span></div><span class="tag">En place</span></div>
+      <div class="demo">
+        <div class="logo d">Thermo-Propre</div>
+        <h2 class="d">L'air que votre famille respire passe par ici.</h2>
+        <p class="t">Votre climatiseur mural souffle dans vos pièces 24 heures sur 24. On le nettoie en profondeur pour retirer la poussière, les bactéries et la moisissure.</p>
+        <div class="btns t"><span class="b1">Réserver mon nettoyage</span><span class="b2">514 555-0142</span></div>
+        <div class="sec">
+          <h3 class="d">Comment se passe la visite</h3>
+          <div class="step t"><span class="n">1</span><b>On protège votre pièce</b><span>Courant coupé, bâche au sol, housse étanche sous l'appareil.</span></div>
+          <div class="price"><strong class="d">109 $</strong><span class="t">par appareil, dès 5 têtes</span></div>
+        </div>
+      </div>
+      <div class="why">Chaleureuse et rassurante, un peu artisanale. Une seule épaisseur pour les titres.<button type="button">Je choisis celle-ci</button></div>
+    </article>
+
+    <article class="opt f-b" data-name="B. Élégante">
+      <div class="opt-top"><div><b>B. Élégante</b><br><span>Newsreader pour les titres, Figtree pour le texte</span></div></div>
+      <div class="demo">
+        <div class="logo d">Thermo-Propre</div>
+        <h2 class="d">L'air que votre famille respire passe par ici.</h2>
+        <p class="t">Votre climatiseur mural souffle dans vos pièces 24 heures sur 24. On le nettoie en profondeur pour retirer la poussière, les bactéries et la moisissure.</p>
+        <div class="btns t"><span class="b1">Réserver mon nettoyage</span><span class="b2">514 555-0142</span></div>
+        <div class="sec">
+          <h3 class="d">Comment se passe la visite</h3>
+          <div class="step t"><span class="n">1</span><b>On protège votre pièce</b><span>Courant coupé, bâche au sol, housse étanche sous l'appareil.</span></div>
+          <div class="price"><strong class="d">109 $</strong><span class="t">par appareil, dès 5 têtes</span></div>
+        </div>
+      </div>
+      <div class="why">Raffinée et haut de gamme, inspire la confiance. Plusieurs épaisseurs pour hiérarchiser les titres.<button type="button">Je choisis celle-ci</button></div>
+    </article>
+
+    <article class="opt f-c" data-name="C. Moderne chaleureuse">
+      <div class="opt-top"><div><b>C. Moderne chaleureuse</b><br><span>Bricolage Grotesque pour les titres, Figtree pour le texte</span></div><span class="tag">Ma recommandation</span></div>
+      <div class="demo">
+        <div class="logo d">Thermo-Propre</div>
+        <h2 class="d">L'air que votre famille respire passe par ici.</h2>
+        <p class="t">Votre climatiseur mural souffle dans vos pièces 24 heures sur 24. On le nettoie en profondeur pour retirer la poussière, les bactéries et la moisissure.</p>
+        <div class="btns t"><span class="b1">Réserver mon nettoyage</span><span class="b2">514 555-0142</span></div>
+        <div class="sec">
+          <h3 class="d">Comment se passe la visite</h3>
+          <div class="step t"><span class="n">1</span><b>On protège votre pièce</b><span>Courant coupé, bâche au sol, housse étanche sous l'appareil.</span></div>
+          <div class="price"><strong class="d">109 $</strong><span class="t">par appareil, dès 5 têtes</span></div>
+        </div>
+      </div>
+      <div class="why">Moderne avec du caractère, humaine sans être vieillotte. Suit bien une marque qui ajoutera le monitoring et d'autres services.<button type="button">Je choisis celle-ci</button></div>
+    </article>
+
+    <article class="opt f-d" data-name="D. Techno">
+      <div class="opt-top"><div><b>D. Techno</b><br><span>Sora pour tout le site</span></div></div>
+      <div class="demo">
+        <div class="logo d">Thermo-Propre</div>
+        <h2 class="d">L'air que votre famille respire passe par ici.</h2>
+        <p class="t">Votre climatiseur mural souffle dans vos pièces 24 heures sur 24. On le nettoie en profondeur pour retirer la poussière, les bactéries et la moisissure.</p>
+        <div class="btns t"><span class="b1">Réserver mon nettoyage</span><span class="b2">514 555-0142</span></div>
+        <div class="sec">
+          <h3 class="d">Comment se passe la visite</h3>
+          <div class="step t"><span class="n">1</span><b>On protège votre pièce</b><span>Courant coupé, bâche au sol, housse étanche sous l'appareil.</span></div>
+          <div class="price"><strong class="d">109 $</strong><span class="t">par appareil, dès 5 têtes</span></div>
+        </div>
+      </div>
+      <div class="why">Nette et géométrique, fait penser à une entreprise technologique internationale. Plus froide pour un service à domicile.<button type="button">Je choisis celle-ci</button></div>
+    </article>
+  </div>
+</div>
+<div class="choice" id="choice" hidden></div>
+
+<script>
+(() => {
+  const opts = document.querySelectorAll(".opt"), bar = document.getElementById("choice");
+  function pick(o){
+    opts.forEach(x => { x.classList.toggle("pick", x === o); x.querySelector(".why button").textContent = x === o ? "Choisie" : "Je choisis celle-ci"; });
+    bar.hidden = false;
+    bar.textContent = "Ton choix : " + o.dataset.name + ". Dis-le-moi dans la conversation et je l'applique au site.";
+    try { localStorage.setItem("police-choisie", o.dataset.name); } catch (e) {}
+  }
+  opts.forEach(o => o.querySelector(".why button").addEventListener("click", () => pick(o)));
+  try { const s = localStorage.getItem("police-choisie"); const o = [...opts].find(x => x.dataset.name === s); if (o) pick(o); } catch (e) {}
+})();
+</script>

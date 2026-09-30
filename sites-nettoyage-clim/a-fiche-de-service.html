@@ -1,0 +1,412 @@
+<title>Thermo-Propre Fiche de service</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&display=swap">
+<style>
+/* Layout : le billet de soumission est le hero ; le reste de la page se lit comme le verso d'une fiche de service. */
+:root{
+  --bg:#E9EFF0;        /* craie froide */
+  --paper:#FFFFFF;     /* le billet */
+  --ink:#15313B;       /* encre bleu-pétrole */
+  --muted:#557077;
+  --line:#C3D1D4;
+  --tag:#F4C330;       /* étiquette de service jaune */
+  --tag-ink:#15313B;
+  --ok:#2E7D5B;
+  --f-display:"Archivo", "Arial Narrow", system-ui, sans-serif;
+  --f-body:"Archivo", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --step--1:.875rem; --step-0:1rem; --step-1:1.25rem; --step-2:1.6rem; --step-3:2.2rem; --step-4:clamp(2.3rem, 5.4vw, 3.9rem);
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0E1B20; --paper:#15262C; --ink:#E4EDEF; --muted:#94ABB1; --line:#2B414A; --tag:#F4C330; --tag-ink:#15313B; --ok:#63C597; color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --bg:#0E1B20; --paper:#15262C; --ink:#E4EDEF; --muted:#94ABB1; --line:#2B414A; --tag:#F4C330; --tag-ink:#15313B; --ok:#63C597; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:var(--step-0);line-height:1.55;margin:0}
+.wrap{max-width:1120px;margin:0 auto;padding-inline:20px}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--tag);outline-offset:2px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;line-height:1.05;margin:0}
+h2{font-size:var(--step-3);font-stretch:112%;font-weight:800;letter-spacing:-.01em}
+h3{font-size:var(--step-1);font-weight:700}
+p{margin:0;max-width:62ch}
+.num{font-variant-numeric:tabular-nums}
+
+/* barre du haut */
+.top{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:center;justify-content:space-between;padding-block:18px}
+.brand{font-family:var(--f-display);font-weight:900;font-stretch:125%;font-size:1.15rem;letter-spacing:-.01em}
+.brand small{display:block;font-weight:500;font-stretch:100%;font-size:var(--step--1);color:var(--muted);letter-spacing:0}
+.phone{font-weight:700;font-size:var(--step-1);font-variant-numeric:tabular-nums}
+.phone span{display:block;font-weight:400;font-size:var(--step--1);color:var(--muted)}
+
+/* hero */
+.hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,480px);gap:40px;align-items:start;padding-block:28px 64px}
+.hero h1{font-size:var(--step-4);font-weight:900;font-stretch:118%;letter-spacing:-.02em}
+.hero .lede{margin-top:20px;font-size:var(--step-1);color:var(--muted)}
+.facts{list-style:none;padding:0;margin:28px 0 0;display:grid;gap:10px}
+.facts li{display:grid;grid-template-columns:130px minmax(0,1fr);gap:12px;border-top:1px solid var(--line);padding-top:10px}
+.facts b{font-weight:700}
+.facts span{color:var(--muted)}
+
+/* le billet */
+.ticket{background:var(--paper);position:relative;padding:0 0 24px;box-shadow:0 1px 0 var(--line),0 18px 40px -24px rgba(21,49,59,.45)}
+.ticket::before{content:"";position:absolute;left:0;right:0;top:-8px;height:8px;background:radial-gradient(circle at 8px 8px,transparent 5px,var(--paper) 5.5px) 0 0/16px 8px repeat-x}
+.tag{background:var(--tag);color:var(--tag-ink);display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 20px;font-weight:700}
+.tag .hole{width:14px;height:14px;border-radius:50%;background:var(--bg);box-shadow:inset 0 0 0 2px rgba(21,49,59,.35);flex:none}
+.tag .id{font-variant-numeric:tabular-nums;font-weight:500;font-size:var(--step--1)}
+.tbody{padding:20px 20px 0;display:grid;gap:18px}
+.field{display:grid;gap:8px}
+.field > label, .field > .lbl{font-weight:700;font-size:var(--step--1)}
+.stepper{display:flex;align-items:center;gap:0;border:2px solid var(--ink);width:max-content}
+.stepper button{appearance:none;border:0;background:transparent;color:var(--ink);width:48px;height:48px;font-size:1.5rem;font-weight:700;cursor:pointer}
+.stepper button:hover{background:var(--bg)}
+.stepper output{min-width:70px;text-align:center;font-family:var(--f-display);font-weight:900;font-size:1.8rem;font-stretch:125%;font-variant-numeric:tabular-nums}
+.tier{font-size:var(--step--1);color:var(--muted)}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg input{position:absolute;opacity:0;pointer-events:none}
+.seg label{border:1.5px solid var(--line);padding:8px 12px;cursor:pointer;font-size:var(--step--1);font-weight:600}
+.seg input:checked + label{border-color:var(--ink);background:var(--ink);color:var(--paper)}
+.seg input:focus-visible + label{outline:3px solid var(--tag);outline-offset:2px}
+.opts{display:grid;gap:8px}
+.opt{display:grid;grid-template-columns:22px minmax(0,1fr) auto;gap:10px;align-items:start;font-size:var(--step--1);cursor:pointer}
+.opt input{width:18px;height:18px;margin:2px 0 0;accent-color:var(--ink)}
+.opt em{font-style:normal;color:var(--muted);display:block}
+.opt .p{font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+.hint{font-size:var(--step--1);background:color-mix(in srgb,var(--tag) 22%,transparent);padding:8px 10px;border-left:3px solid var(--tag)}
+select{font:inherit;color:var(--ink);background:var(--paper);border:1.5px solid var(--line);padding:10px;width:100%}
+.lines{border-top:2px dashed var(--line);padding-top:16px;display:grid;gap:6px;font-size:var(--step--1)}
+.row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;font-variant-numeric:tabular-nums}
+.row.sub{border-top:1px solid var(--line);padding-top:8px;margin-top:4px}
+.row.muted{color:var(--muted)}
+.total{display:flex;justify-content:space-between;align-items:baseline;gap:12px;border-top:2px solid var(--ink);padding-top:12px;margin-top:6px}
+.total b{font-family:var(--f-display);font-weight:900;font-stretch:125%;font-size:2.4rem;font-variant-numeric:tabular-nums;line-height:1}
+.fine{font-size:.8rem;color:var(--muted)}
+.btn{display:inline-flex;justify-content:center;align-items:center;gap:8px;background:var(--ink);color:var(--paper);border:0;padding:14px 20px;font:inherit;font-weight:700;cursor:pointer;text-decoration:none}
+.btn:hover{background:color-mix(in srgb,var(--ink) 85%,var(--tag))}
+
+/* sections */
+section.blk{padding-block:64px;border-top:1px solid var(--line)}
+.blk-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:24px 40px;align-items:end;margin-bottom:36px}
+.blk-head p{color:var(--muted)}
+
+/* anatomie */
+.anat{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:40px;align-items:center}
+.anat svg{width:100%;height:auto;display:block}
+.anat svg .body{fill:var(--paper);stroke:var(--ink);stroke-width:2}
+.anat svg .part{fill:none;stroke:var(--ink);stroke-width:1.6}
+.anat svg .fillp{fill:var(--line)}
+.anat svg .callout{stroke:var(--muted);stroke-width:1;fill:none}
+.anat svg text{fill:var(--ink);font-family:var(--f-body);font-size:13px;font-weight:700}
+.anat svg .dot{fill:var(--tag);stroke:var(--ink);stroke-width:1.5}
+.parts{list-style:none;padding:0;margin:0;display:grid;gap:14px}
+.parts li{display:grid;grid-template-columns:28px minmax(0,1fr);gap:12px}
+.parts .k{width:26px;height:26px;border-radius:50%;background:var(--tag);color:var(--tag-ink);font-weight:800;display:grid;place-items:center;font-size:.85rem;border:1.5px solid var(--ink)}
+.parts b{display:block}
+.parts span{color:var(--muted);font-size:var(--step--1)}
+
+/* grille */
+.grid2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:32px}
+.tbl-wrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums}
+th,td{text-align:left;padding:12px 8px;border-bottom:1px solid var(--line)}
+th{font-size:var(--step--1);color:var(--muted);font-weight:600}
+td:last-child,th:last-child{text-align:right;white-space:nowrap}
+td b{font-family:var(--f-display);font-stretch:118%;font-weight:800;font-size:var(--step-1)}
+
+/* déroulement : vraie séquence */
+.steps{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:0;counter-reset:s}
+.steps li{padding:18px 16px 0 0;border-top:3px solid var(--ink);counter-increment:s;display:grid;gap:6px;align-content:start}
+.steps li::before{content:counter(s);font-family:var(--f-display);font-weight:900;font-stretch:125%;font-size:var(--step-2)}
+.steps li span{color:var(--muted);font-size:var(--step--1)}
+
+/* zone + formulaire */
+.zones{display:grid;gap:10px;margin-top:20px}
+.z{display:grid;grid-template-columns:90px minmax(0,1fr) auto;gap:12px;align-items:baseline;border-top:1px solid var(--line);padding-top:10px}
+.z b:last-child{font-variant-numeric:tabular-nums}
+form{display:grid;gap:14px;background:var(--paper);padding:24px}
+form .two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px}
+input[type=text],input[type=tel],textarea{font:inherit;color:var(--ink);background:var(--paper);border:1.5px solid var(--line);padding:10px;width:100%}
+textarea{min-height:88px;resize:vertical}
+form label{display:grid;gap:6px;font-weight:600;font-size:var(--step--1)}
+.sent{background:color-mix(in srgb,var(--ok) 14%,transparent);border-left:3px solid var(--ok);padding:10px 12px;font-size:var(--step--1)}
+footer{padding-block:32px 48px;border-top:1px solid var(--line);color:var(--muted);font-size:var(--step--1);display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between}
+
+@media (max-width:900px){
+  .hero,.anat,.grid2,.blk-head{grid-template-columns:minmax(0,1fr)}
+  .steps{grid-template-columns:minmax(0,1fr)}
+  .steps li{grid-template-columns:44px minmax(0,1fr);padding-bottom:14px}
+  .steps li::before{grid-row:span 2}
+}
+@media (max-width:520px){
+  .facts li{grid-template-columns:minmax(0,1fr);gap:2px}
+  form .two{grid-template-columns:minmax(0,1fr)}
+  .total b{font-size:2rem}
+}
+@media (prefers-reduced-motion:no-preference){
+  .total b{transition:color .2s}
+  .total b.bump{color:var(--ok)}
+}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="brand">Thermo-Propre<small>Nettoyage de climatiseurs muraux et thermopompes</small></div>
+    <div class="phone num">514 555-0142<span>Lun–sam, 8 h à 18 h</span></div>
+  </header>
+
+  <div class="hero">
+    <div>
+      <h1>Votre soumission de nettoyage, calculée avant qu'on se parle.</h1>
+      <p class="lede">Choisissez le nombre de têtes murales, l'état de l'appareil et votre secteur. Le prix affiché est celui qu'on vous facture, taxes comprises.</p>
+      <ul class="facts">
+        <li><b>Secteur inclus</b><span>Montréal et 20 km autour, sans frais de déplacement</span></li>
+        <li><b>Tarif dégressif</b><span>De 139 $ pour une unité à 109 $ l'unité dès cinq têtes</span></li>
+        <li><b>Validité</b><span>Le prix tient 30 jours</span></li>
+        <li><b>Garantie</b><span>Pas satisfait? On repasse sans frais.</span></li>
+      </ul>
+    </div>
+
+    <aside class="ticket" aria-label="Calculateur de soumission">
+      <div class="tag"><span class="hole" aria-hidden="true"></span><span>Soumission</span><span class="id" id="qid">N° 2026-—</span></div>
+      <div class="tbody">
+        <div class="field">
+          <span class="lbl" id="u-lbl">Têtes murales à nettoyer</span>
+          <div class="stepper" role="group" aria-labelledby="u-lbl">
+            <button type="button" id="u-minus" aria-label="Retirer une unité">−</button>
+            <output id="units" aria-live="polite">2</output>
+            <button type="button" id="u-plus" aria-label="Ajouter une unité">+</button>
+          </div>
+          <span class="tier" id="tier">Tarif 2 unités : 129 $ l'unité</span>
+        </div>
+
+        <div class="field">
+          <span class="lbl">État de l'appareil</span>
+          <div class="seg" role="radiogroup">
+            <input type="radio" name="etat" id="e1" value="normal" checked><label for="e1">Normal</label>
+            <input type="radio" name="etat" id="e2" value="sale"><label for="e2">Très encrassé</label>
+            <input type="radio" name="etat" id="e3" value="moisi"><label for="e3">Odeur ou moisissure</label>
+          </div>
+          <p class="hint" id="hint" hidden></p>
+        </div>
+
+        <div class="field">
+          <span class="lbl">Options</span>
+          <div class="opts">
+            <label class="opt"><input type="checkbox" id="o-desinf"><span>Désinfection antibactérienne<em>Par unité, recommandé si quelqu'un est allergique</em></span><span class="p">+39 $</span></label>
+            <label class="opt"><input type="checkbox" id="o-moisi"><span>Traitement anti-moisissure renforcé<em>Par unité, points noirs sur les volets ou la turbine</em></span><span class="p">+25 $</span></label>
+            <label class="opt"><input type="checkbox" id="o-acces"><span>Accès difficile<em>Par unité, installée à plus de 3 m</em></span><span class="p">+25 $</span></label>
+            <label class="opt"><input type="checkbox" id="o-ext"><span>Unité extérieure (condenseur)<em>Une fois par visite</em></span><span class="p">+59 $</span></label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="zone">Secteur</label>
+          <select id="zone">
+            <option value="A">Zone A : moins de 20 km de Montréal (inclus)</option>
+            <option value="B">Zone B : 20 à 40 km (+30 $)</option>
+            <option value="C">Plus de 40 km (prix sur demande)</option>
+          </select>
+        </div>
+
+        <div class="lines" id="lines" aria-live="polite"></div>
+        <div class="total"><span>Total</span><b id="total">0,00 $</b></div>
+        <p class="fine">TPS 5 % et TVQ 9,975 % incluses. Prix valide 30 jours. Paiement à la fin de l'intervention : comptant, virement ou carte.</p>
+        <a class="btn" href="#reserver" id="book">Réserver à ce prix</a>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<section class="blk" id="anatomie">
+  <div class="wrap">
+    <div class="blk-head">
+      <h2>Ce qu'on démonte, lave et rince</h2>
+      <p>Un nettoyage de filtres, vous pouvez le faire vous-même. Ce que vous payez ici, c'est l'intérieur : le serpentin et la turbine, là où la poussière colle à l'humidité et devient une pâte grise qui sent le renfermé.</p>
+    </div>
+    <div class="anat">
+      <svg viewBox="0 0 560 300" role="img" aria-label="Coupe d'une tête murale avec les pièces nettoyées numérotées">
+        <rect class="body" x="40" y="60" width="480" height="150" rx="18"/>
+        <!-- filtres -->
+        <path class="part" d="M70 76 H490" stroke-dasharray="4 4"/>
+        <path class="part" d="M70 84 H490" stroke-dasharray="4 4"/>
+        <!-- serpentin -->
+        <path class="part" d="M90 100 l14 70 l14 -70 l14 70 l14 -70 l14 70 l14 -70 l14 70 l14 -70 l14 70 l14 -70 l14 70 l14 -70 l14 70 l14 -70 l14 70 l14 -70"/>
+        <!-- turbine -->
+        <circle class="part" cx="400" cy="150" r="34"/>
+        <g class="part">
+          <line x1="400" y1="116" x2="400" y2="184"/><line x1="366" y1="150" x2="434" y2="150"/>
+          <line x1="376" y1="126" x2="424" y2="174"/><line x1="424" y1="126" x2="376" y2="174"/>
+        </g>
+        <circle class="fillp" cx="400" cy="150" r="7"/>
+        <!-- bac + drain -->
+        <path class="part" d="M84 186 H330 V198 H84 Z"/>
+        <path class="part" d="M96 198 V240 Q96 262 118 262 H150"/>
+        <!-- volets -->
+        <path class="part" d="M360 210 l40 22 M392 210 l40 22 M424 210 l40 22"/>
+        <!-- repères -->
+        <g>
+          <circle class="dot" cx="280" cy="80" r="11"/><text x="276" y="85">1</text>
+          <circle class="dot" cx="200" cy="135" r="11"/><text x="196" y="140">2</text>
+          <circle class="dot" cx="400" cy="150" r="11"/><text x="396" y="155">3</text>
+          <circle class="dot" cx="210" cy="192" r="11"/><text x="206" y="197">4</text>
+          <circle class="dot" cx="150" cy="262" r="11"/><text x="146" y="267">5</text>
+          <circle class="dot" cx="440" cy="228" r="11"/><text x="436" y="233">6</text>
+        </g>
+      </svg>
+      <ol class="parts">
+        <li><span class="k">1</span><div><b>Filtres</b><span>Retirés, lavés, séchés avant remontage.</span></div></li>
+        <li><span class="k">2</span><div><b>Serpentin (évaporateur)</b><span>Nettoyant non corrosif puis rinçage basse pression, ailettes par ailettes.</span></div></li>
+        <li><span class="k">3</span><div><b>Turbine</b><span>La roue à pales où se forment les points noirs. C'est elle qui souffle l'odeur dans la pièce.</span></div></li>
+        <li><span class="k">4</span><div><b>Bac à condensat</b><span>Vidé et désinfecté pour éviter le dépôt gluant.</span></div></li>
+        <li><span class="k">5</span><div><b>Drain</b><span>Débouché et testé à l'eau : c'est souvent la cause des gouttes sur le mur.</span></div></li>
+        <li><span class="k">6</span><div><b>Volets et boîtier</b><span>Essuyés, puis test de fonctionnement en froid et en chaud.</span></div></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section class="blk" id="prix">
+  <div class="wrap">
+    <div class="blk-head">
+      <h2>La grille complète</h2>
+      <p>Le prix par unité baisse selon le nombre de têtes nettoyées pendant la même visite. Aucun frais caché : le déplacement est inclus dans la zone A.</p>
+    </div>
+    <div class="grid2">
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Têtes nettoyées pendant la visite</th><th>Prix par unité</th></tr></thead>
+          <tbody>
+            <tr><td>1 unité</td><td><b>139 $</b></td></tr>
+            <tr><td>2 unités</td><td><b>129 $</b></td></tr>
+            <tr><td>3 ou 4 unités</td><td><b>119 $</b></td></tr>
+            <tr><td>5 unités et plus</td><td><b>109 $</b></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Option</th><th>Prix</th></tr></thead>
+          <tbody>
+            <tr><td>Désinfection antibactérienne</td><td>+39 $ / unité</td></tr>
+            <tr><td>Traitement anti-moisissure renforcé</td><td>+25 $ / unité</td></tr>
+            <tr><td>Accès difficile (plus de 3 m)</td><td>+25 $ / unité</td></tr>
+            <tr><td>Unité extérieure (condenseur)</td><td>+59 $</td></tr>
+            <tr><td>Zone B (20 à 40 km)</td><td>+30 $</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="blk" id="deroulement">
+  <div class="wrap">
+    <div class="blk-head">
+      <h2>Une visite, étape par étape</h2>
+      <p>On arrive avec une housse de nettoyage qui récupère toute l'eau sale. Vos murs et vos planchers restent secs.</p>
+    </div>
+    <ol class="steps">
+      <li><b>Protection</b><span>Coupure du courant, housse étanche sous l'appareil, bâche au sol.</span></li>
+      <li><b>Démontage</b><span>Façade, filtres et volets retirés.</span></li>
+      <li><b>Lavage</b><span>Serpentin et turbine au nettoyant, rinçage basse pression.</span></li>
+      <li><b>Bac et drain</b><span>Désinfection du bac, test d'écoulement du drain.</span></li>
+      <li><b>Test</b><span>Remontage, essai en froid et en chaud devant vous.</span></li>
+    </ol>
+  </div>
+</section>
+
+<section class="blk" id="reserver">
+  <div class="wrap grid2">
+    <div>
+      <h2>Réserver une visite</h2>
+      <p style="margin-top:16px;color:var(--muted)">Laissez vos coordonnées, on vous rappelle dans la journée avec deux plages horaires. Vous pouvez aussi appeler au <b class="num" style="color:var(--ink)">514 555-0142</b>.</p>
+      <div class="zones">
+        <div class="z"><b>Zone A</b><span>Montréal, Laval, Longueuil, Brossard, Dorval</span><b>Inclus</b></div>
+        <div class="z"><b>Zone B</b><span>Terrebonne, Châteauguay, Saint-Jérôme, Vaudreuil</span><b>+30 $</b></div>
+        <div class="z"><b>Au-delà</b><span>Sur demande, selon le nombre d'unités</span><b>—</b></div>
+      </div>
+    </div>
+    <form id="f" novalidate>
+      <div class="two">
+        <label for="nom">Nom<input type="text" id="nom" autocomplete="name" required></label>
+        <label for="tel">Téléphone<input type="tel" id="tel" autocomplete="tel" required></label>
+      </div>
+      <label for="ville">Ville ou quartier<input type="text" id="ville" required></label>
+      <label for="note">Votre soumission<textarea id="note"></textarea></label>
+      <button class="btn" type="submit">Envoyer la demande</button>
+      <p class="sent" id="sent" hidden></p>
+    </form>
+  </div>
+</section>
+
+<div class="wrap">
+  <footer>
+    <span>Thermo-Propre · nom de travail, site d'exemple</span>
+    <span>Nettoyage seulement : aucune manipulation de réfrigérant.</span>
+  </footer>
+</div>
+
+<script>
+(() => {
+  const TPS = 0.05, TVQ = 0.09975, MIN = 120;
+  const unitPrice = n => n >= 5 ? 109 : n >= 3 ? 119 : n === 2 ? 129 : 139;
+  const tierLabel = n => n >= 5 ? "5 unités et plus" : n >= 3 ? "3 ou 4 unités" : n === 2 ? "2 unités" : "1 unité";
+  const money = v => v.toLocaleString("fr-CA", {minimumFractionDigits:2, maximumFractionDigits:2}) + " $";
+  const $ = id => document.getElementById(id);
+  let n = 2;
+  const d = new Date();
+  $("qid").textContent = "N° " + d.getFullYear() + "-" + String(d.getMonth()+1).padStart(2,"0") + String(d.getDate()).padStart(2,"0");
+
+  function compute(){
+    const pu = unitPrice(n), lines = [];
+    lines.push([`Nettoyage, ${n} × ${pu} $`, n*pu]);
+    if ($("o-desinf").checked) lines.push([`Désinfection, ${n} × 39 $`, n*39]);
+    if ($("o-moisi").checked) lines.push([`Anti-moisissure, ${n} × 25 $`, n*25]);
+    if ($("o-acces").checked) lines.push([`Accès difficile, ${n} × 25 $`, n*25]);
+    if ($("o-ext").checked) lines.push(["Unité extérieure", 59]);
+    const z = $("zone").value;
+    lines.push([z === "A" ? "Déplacement zone A" : z === "B" ? "Déplacement zone B" : "Déplacement hors zone", z === "B" ? 30 : 0]);
+    let sub = lines.reduce((s,l) => s + l[1], 0);
+    if (sub < MIN) { lines.push(["Ajustement au minimum de facturation", MIN - sub]); sub = MIN; }
+    const tps = sub*TPS, tvq = sub*TVQ, tot = sub + tps + tvq;
+    return {pu, lines, sub, tps, tvq, tot, z};
+  }
+  function render(){
+    const r = compute();
+    $("units").textContent = n;
+    $("tier").textContent = `Tarif ${tierLabel(n)} : ${r.pu} $ l'unité`;
+    $("u-minus").disabled = n <= 1;
+    let h = r.lines.map(([l,v]) => `<div class="row"><span>${l}</span><span>${v ? money(v) : "Inclus"}</span></div>`).join("");
+    h += `<div class="row sub"><span>Sous-total</span><span>${money(r.sub)}</span></div>`;
+    h += `<div class="row muted"><span>TPS 5 %</span><span>${money(r.tps)}</span></div>`;
+    h += `<div class="row muted"><span>TVQ 9,975 %</span><span>${money(r.tvq)}</span></div>`;
+    $("lines").innerHTML = h;
+    const t = $("total");
+    t.textContent = r.z === "C" ? "Sur demande" : money(r.tot);
+    t.classList.add("bump"); setTimeout(() => t.classList.remove("bump"), 250);
+    const e = document.querySelector("input[name=etat]:checked").value;
+    const hint = $("hint");
+    if (e === "moisi" && !$("o-moisi").checked) { hint.hidden = false; hint.textContent = "Pour une odeur ou des points noirs, on recommande le traitement anti-moisissure. Il reste optionnel."; }
+    else if (e === "sale" && !$("o-desinf").checked) { hint.hidden = false; hint.textContent = "Appareil jamais nettoyé depuis l'installation? La désinfection vaut souvent la peine."; }
+    else hint.hidden = true;
+    $("note").value = `${n} tête(s) murale(s), état : ${document.querySelector("input[name=etat]:checked + label").textContent.toLowerCase()}. ` +
+      r.lines.slice(1,-1).map(l => l[0].split(",")[0]).join(", ") + (r.z === "C" ? " Hors zone." : ` Total estimé : ${money(r.tot)}.`);
+  }
+  $("u-minus").onclick = () => { if (n > 1) { n--; render(); } };
+  $("u-plus").onclick = () => { if (n < 12) { n++; render(); } };
+  document.querySelectorAll("input,select").forEach(el => el.addEventListener("change", render));
+  $("f").addEventListener("submit", ev => {
+    ev.preventDefault();
+    const s = $("sent"); s.hidden = false;
+    if (!$("nom").value.trim() || !$("tel").value.trim() || !$("ville").value.trim()) {
+      s.textContent = "Il manque votre nom, votre téléphone ou votre ville. Remplissez les trois champs pour qu'on puisse vous rappeler.";
+    } else {
+      s.textContent = "Demande prête. Sur ce site d'exemple, rien n'est encore envoyé : le formulaire sera relié à votre courriel une fois le site en ligne.";
+    }
+  });
+  render();
+})();
+</script>

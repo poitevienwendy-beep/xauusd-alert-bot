@@ -1,0 +1,342 @@
+<title>Thermo-Propre La turbine</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,300..800&family=Atkinson+Hyperlegible:wght@400;700&display=swap">
+<style>
+/* Layout : une grande scène avant/après sur la turbine ouvre la page ; le texte reste en colonne étroite, aligné à gauche, sous la scène. */
+:root{
+  --bg:#EFF3F2;
+  --surface:#FFFFFF;
+  --ink:#131917;
+  --muted:#56645E;
+  --line:#CFD9D5;
+  --clean:#13909C;     /* bleu-vert « rincé » */
+  --grime:#6A5C3A;     /* dépôt brun-olive */
+  --stage:#DDE5E2;     /* fond de la scène */
+  --f-display:"Bricolage Grotesque", "Arial Narrow", system-ui, sans-serif;
+  --f-body:"Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --s--1:.875rem; --s0:1.0625rem; --s1:1.3rem; --s2:1.75rem; --s3:2.4rem; --s4:clamp(2.6rem,7vw,5.6rem);
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0F1413; --surface:#161D1B; --ink:#E7EEEB; --muted:#98A8A1; --line:#27322F; --clean:#4CC3CE; --grime:#B39F6C; --stage:#1B2321; color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --bg:#0F1413; --surface:#161D1B; --ink:#E7EEEB; --muted:#98A8A1; --line:#27322F; --clean:#4CC3CE; --grime:#B39F6C; --stage:#1B2321; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:var(--s0);line-height:1.6;margin:0}
+.wrap{max-width:1180px;margin:0 auto;padding-inline:20px}
+.col{max-width:720px}
+:focus-visible{outline:3px solid var(--clean);outline-offset:3px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0}
+h2{font-size:var(--s3);font-weight:700;font-variation-settings:"opsz" 72;line-height:1.02;letter-spacing:-.02em}
+h3{font-size:var(--s1);font-weight:700;line-height:1.2}
+p{margin:0}
+
+.top{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px 20px;padding-block:18px}
+.brand{font-family:var(--f-display);font-weight:800;font-size:1.25rem;letter-spacing:-.02em}
+.top a{color:var(--ink);font-weight:700;text-decoration:none;font-variant-numeric:tabular-nums}
+.top a:hover{color:var(--clean)}
+
+.hero{padding-block:12px 20px}
+.hero h1{font-size:var(--s4);font-weight:800;font-variation-settings:"opsz" 96;font-stretch:78%;line-height:.92;letter-spacing:-.035em;max-width:14ch}
+.hero-sub{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px 40px;align-items:end;margin-top:22px}
+.hero-sub p{color:var(--muted);font-size:var(--s1);max-width:46ch;line-height:1.45}
+.cta{display:inline-flex;align-items:center;gap:10px;background:var(--ink);color:var(--bg);padding:14px 22px;border-radius:999px;font-weight:700;text-decoration:none;white-space:nowrap}
+.cta:hover{background:var(--clean);color:#fff}
+
+/* la scène */
+.stage{position:relative;margin-top:32px;background:var(--stage);border-radius:6px;overflow:hidden;aspect-ratio:16/7;max-width:100%;touch-action:pan-y}
+.stage canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.stage .tagl,.stage .tagr{position:absolute;top:16px;font-weight:700;font-size:var(--s--1);padding:4px 10px;border-radius:999px;pointer-events:none}
+.stage .tagl{left:16px;background:var(--grime);color:#fff}
+.stage .tagr{right:16px;background:var(--clean);color:#fff}
+.stage input[type=range]{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:ew-resize}
+.handle{position:absolute;top:0;bottom:0;width:0;pointer-events:none}
+.handle::before{content:"";position:absolute;top:0;bottom:0;left:-1.5px;width:3px;background:#fff;box-shadow:0 0 0 1px rgba(0,0,0,.15)}
+.handle::after{content:"";position:absolute;top:50%;left:-22px;width:44px;height:44px;margin-top:-22px;border-radius:50%;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.25);
+  background-image:linear-gradient(135deg,transparent 45%,#131917 45% 55%,transparent 55%),linear-gradient(45deg,transparent 45%,#131917 45% 55%,transparent 55%);
+  background-size:10px 10px;background-position:9px 17px,25px 17px;background-repeat:no-repeat}
+.stage:has(input:focus-visible) .handle::after{outline:3px solid var(--clean);outline-offset:2px}
+.caption{margin-top:10px;font-size:var(--s--1);color:var(--muted);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+section{padding-block:72px}
+section + section{border-top:1px solid var(--line)}
+
+/* signes */
+.signs{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0 48px;margin-top:36px}
+.sign{display:grid;gap:4px;padding-block:18px;border-top:1px solid var(--line)}
+.sign b{font-family:var(--f-display);font-size:var(--s1);font-weight:700;line-height:1.2}
+.sign span{color:var(--muted)}
+
+/* niveaux */
+.tiers{display:flex;flex-wrap:wrap;gap:8px;margin-top:28px;align-items:center}
+.tiers span{font-weight:700;margin-right:6px}
+.tiers button{font:inherit;font-weight:700;border:1.5px solid var(--line);background:transparent;color:var(--ink);padding:8px 14px;border-radius:999px;cursor:pointer;font-variant-numeric:tabular-nums}
+.tiers button[aria-pressed=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.levels{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;margin-top:24px;border-top:2px solid var(--ink)}
+.lvl{padding:24px 24px 24px 0;display:grid;gap:12px;align-content:start}
+.lvl + .lvl{padding-left:24px;border-left:1px solid var(--line)}
+.lvl .price{font-family:var(--f-display);font-weight:800;font-size:var(--s3);font-variant-numeric:tabular-nums;line-height:1;letter-spacing:-.02em}
+.lvl .price small{font-family:var(--f-body);font-size:var(--s--1);font-weight:400;color:var(--muted);letter-spacing:0;margin-left:4px}
+.lvl ul{margin:0;padding-left:18px;color:var(--muted);display:grid;gap:4px}
+.lvl.pick{background:linear-gradient(var(--surface),var(--surface)) padding-box}
+.lvl .for{font-size:var(--s--1);font-weight:700;color:var(--clean)}
+.extra{margin-top:24px;color:var(--muted);font-size:var(--s--1);max-width:70ch}
+
+/* FAQ */
+details{border-top:1px solid var(--line);padding-block:18px}
+details:last-of-type{border-bottom:1px solid var(--line)}
+summary{cursor:pointer;font-family:var(--f-display);font-weight:700;font-size:var(--s1);list-style:none;display:flex;justify-content:space-between;gap:20px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font-weight:400;color:var(--muted)}
+details[open] summary::after{content:"−"}
+details p{margin-top:10px;color:var(--muted);max-width:62ch}
+
+/* contact */
+.contact{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:40px;align-items:start}
+.big-phone{font-family:var(--f-display);font-weight:800;font-size:var(--s3);font-variant-numeric:tabular-nums;letter-spacing:-.02em;margin-top:16px;user-select:all}
+form{display:grid;gap:14px}
+form label{display:grid;gap:6px;font-weight:700;font-size:var(--s--1)}
+input[type=text],input[type=tel],select{font:inherit;color:var(--ink);background:var(--surface);border:1.5px solid var(--line);border-radius:6px;padding:12px}
+form button{justify-self:start;font:inherit;font-weight:700;border:0;background:var(--ink);color:var(--bg);padding:14px 22px;border-radius:999px;cursor:pointer}
+form button:hover{background:var(--clean);color:#fff}
+.msg{font-size:var(--s--1);border-left:3px solid var(--clean);padding:8px 12px;background:var(--surface)}
+footer{padding-block:28px 48px;border-top:1px solid var(--line);color:var(--muted);font-size:var(--s--1)}
+
+@media (max-width:860px){
+  .hero-sub,.signs,.contact{grid-template-columns:minmax(0,1fr)}
+  .levels{grid-template-columns:minmax(0,1fr)}
+  .lvl,.lvl + .lvl{padding:22px 0;border-left:0}
+  .lvl + .lvl{border-top:1px solid var(--line)}
+  .stage{aspect-ratio:4/3}
+}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <span class="brand">Thermo-Propre</span>
+    <a href="#rdv">514 555-0142</a>
+  </header>
+
+  <div class="hero">
+    <h1>Voici votre turbine après deux étés.</h1>
+    <div class="hero-sub">
+      <p>La turbine, c'est le cylindre à pales derrière les volets de votre climatiseur mural. La poussière s'y colle à l'humidité, puis la moisissure s'installe. Glissez pour voir la différence qu'un vrai nettoyage fait.</p>
+      <a class="cta" href="#rdv">Planifier un nettoyage</a>
+    </div>
+
+    <div class="stage" id="stage">
+      <canvas id="cv" aria-hidden="true"></canvas>
+      <span class="tagl">Avant</span><span class="tagr">Après</span>
+      <div class="handle" id="handle"></div>
+      <input type="range" id="split" min="0" max="100" value="55" step="0.5" aria-label="Comparer la turbine avant et après le nettoyage">
+    </div>
+    <div class="caption"><span>Illustration d'une turbine de tête murale 12 000 BTU, avant et après lavage.</span><span>Glissez ou utilisez les flèches du clavier</span></div>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <div class="col">
+      <h2>Votre climatiseur vous le dit déjà</h2>
+    </div>
+    <div class="signs">
+      <div class="sign"><b>Une odeur de vieux bas au démarrage</b><span>Des bactéries et des moisissures dans le serpentin humide. Elle revient à chaque mise en marche.</span></div>
+      <div class="sign"><b>Des points noirs sur les volets</b><span>La turbine juste derrière est presque toujours pire que ce que vous voyez.</span></div>
+      <div class="sign"><b>De l'eau qui coule sur le mur</b><span>Le bac à condensat ou le drain est bouché par un dépôt gluant.</span></div>
+      <div class="sign"><b>Moins d'air qu'avant</b><span>Pales encrassées, serpentin colmaté : l'appareil force pour le même confort.</span></div>
+      <div class="sign"><b>Une facture d'Hydro qui grimpe</b><span>Un serpentin sale échange mal la chaleur, l'appareil tourne plus longtemps.</span></div>
+      <div class="sign"><b>Des allergies qui empirent à la maison</b><span>Ce qui pousse dans l'appareil est soufflé dans la pièce toute la journée.</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="prix">
+  <div class="wrap">
+    <div class="col">
+      <h2>Trois niveaux de nettoyage, un prix par tête</h2>
+      <p style="margin-top:14px;color:var(--muted)">Plus vous faites nettoyer d'unités pendant la même visite, moins chaque tête coûte.</p>
+    </div>
+    <div class="tiers" role="group" aria-label="Nombre de têtes murales">
+      <span>Têtes murales :</span>
+      <button type="button" data-n="1" aria-pressed="false">1</button>
+      <button type="button" data-n="2" aria-pressed="true">2</button>
+      <button type="button" data-n="3" aria-pressed="false">3 ou 4</button>
+      <button type="button" data-n="5" aria-pressed="false">5 et +</button>
+    </div>
+    <div class="levels">
+      <div class="lvl">
+        <h3>Nettoyage complet</h3>
+        <div class="price"><span data-add="0">129 $</span><small>par tête</small></div>
+        <ul><li>Filtres, serpentin, turbine</li><li>Bac à condensat et drain</li><li>Test en froid et en chaud</li></ul>
+        <span class="for">Entretien annuel normal</span>
+      </div>
+      <div class="lvl">
+        <h3>Avec désinfection</h3>
+        <div class="price"><span data-add="39">168 $</span><small>par tête</small></div>
+        <ul><li>Tout le nettoyage complet</li><li>Traitement antibactérien du serpentin et du bac</li></ul>
+        <span class="for">Allergies, enfants en bas âge</span>
+      </div>
+      <div class="lvl">
+        <h3>Avec traitement anti-moisissure</h3>
+        <div class="price"><span data-add="64">193 $</span><small>par tête</small></div>
+        <ul><li>Nettoyage et désinfection</li><li>Traitement anti-moisissure renforcé de la turbine</li></ul>
+        <span class="for">Odeur, points noirs visibles</span>
+      </div>
+    </div>
+    <p class="extra">Prix avant taxes (TPS et TVQ en sus). Unité extérieure : +59 $ par visite. Unité installée à plus de 3 m : +25 $ par tête. Déplacement inclus à moins de 20 km de Montréal, +30 $ entre 20 et 40 km.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap col">
+    <h2 style="margin-bottom:24px">Questions fréquentes</h2>
+    <details><summary>Combien de temps dure le nettoyage?</summary><p>Comptez environ une heure par tête murale, un peu plus si l'appareil n'a jamais été nettoyé depuis son installation.</p></details>
+    <details><summary>Est-ce que ça fait des dégâts d'eau?</summary><p>Non. On installe une housse étanche sous l'appareil qui récupère toute l'eau de rinçage dans un seau, et une bâche au sol.</p></details>
+    <details><summary>À quelle fréquence faut-il le faire?</summary><p>Une fois par année au minimum. Si votre thermopompe chauffe aussi l'hiver, deux fois : au printemps et à l'automne.</p></details>
+    <details><summary>Rechargez-vous le réfrigérant?</summary><p>Non. On fait le nettoyage seulement, sans toucher au circuit de réfrigérant. Si on remarque un problème de ce côté, on vous le dit et on vous réfère à un frigoriste.</p></details>
+    <details><summary>Comment je paie?</summary><p>À la fin de l'intervention, une fois que vous avez vu l'appareil fonctionner : comptant, virement ou carte.</p></details>
+  </div>
+</section>
+
+<section id="rdv">
+  <div class="wrap contact">
+    <div>
+      <h2>Planifier un nettoyage</h2>
+      <p style="margin-top:14px;color:var(--muted)">Appelez-nous, ou laissez votre numéro et on vous rappelle dans la journée avec deux plages horaires.</p>
+      <div class="big-phone">514 555-0142</div>
+      <p style="color:var(--muted);font-size:var(--s--1)">Lundi au samedi, 8 h à 18 h</p>
+    </div>
+    <form id="f" novalidate>
+      <label for="nom">Nom<input type="text" id="nom" autocomplete="name"></label>
+      <label for="tel">Téléphone<input type="tel" id="tel" autocomplete="tel"></label>
+      <label for="nb">Nombre de têtes murales
+        <select id="nb"><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5 ou plus</option></select>
+      </label>
+      <label for="ville">Ville<input type="text" id="ville" autocomplete="address-level2"></label>
+      <button type="submit">Demander un rappel</button>
+      <p class="msg" id="msg" hidden></p>
+    </form>
+  </div>
+</section>
+
+<div class="wrap"><footer>Thermo-Propre est un nom de travail. Site d'exemple : les formulaires n'envoient rien pour l'instant.</footer></div>
+
+<script>
+(() => {
+  /* ---------- prix ---------- */
+  const pu = n => n >= 5 ? 109 : n >= 3 ? 119 : n === 2 ? 129 : 139;
+  const btns = document.querySelectorAll(".tiers button");
+  btns.forEach(b => b.addEventListener("click", () => {
+    btns.forEach(x => x.setAttribute("aria-pressed", x === b));
+    const base = pu(+b.dataset.n);
+    document.querySelectorAll("[data-add]").forEach(s => s.textContent = (base + +s.dataset.add) + " $");
+  }));
+
+  /* ---------- formulaire ---------- */
+  document.getElementById("f").addEventListener("submit", e => {
+    e.preventDefault();
+    const m = document.getElementById("msg"); m.hidden = false;
+    const ok = document.getElementById("tel").value.trim();
+    m.textContent = ok ? "Demande prête. Sur ce site d'exemple, rien n'est encore envoyé." : "Ajoutez votre numéro de téléphone pour qu'on puisse vous rappeler.";
+  });
+
+  /* ---------- turbine ---------- */
+  const cv = document.getElementById("cv"), ctx = cv.getContext("2d");
+  const stage = document.getElementById("stage"), range = document.getElementById("split"), handle = document.getElementById("handle");
+  let dirty, clean, W, H;
+
+  function rng(seed){ return () => (seed = (seed * 16807) % 2147483647) / 2147483647; }
+
+  function drawTurbine(c, w, h, isDirty){
+    const g = c.getContext("2d"), r = rng(7);
+    const css = getComputedStyle(document.documentElement);
+    g.fillStyle = css.getPropertyValue("--stage").trim() || "#DDE5E2";
+    g.fillRect(0,0,w,h);
+    const cx0 = w*.08, cx1 = w*.92, cy = h*.52, rad = Math.min(h*.34, w*.2);
+    const ry = rad*.28; // perspective des bouts
+    // intérieur sombre du cylindre
+    g.fillStyle = isDirty ? "#2a2519" : "#3b4a4c";
+    g.fillRect(cx0, cy-rad, cx1-cx0, rad*2);
+    // pales : bandes verticales
+    const pitch = Math.max(9, w/110);
+    for (let x = cx0 + pitch*.5; x < cx1; x += pitch){
+      const bw = pitch*.62;
+      const grad = g.createLinearGradient(0, cy-rad, 0, cy+rad);
+      if (isDirty){
+        grad.addColorStop(0, "#6f6547"); grad.addColorStop(.35, "#8c8160"); grad.addColorStop(.6, "#716749"); grad.addColorStop(1, "#3e3825");
+      } else {
+        grad.addColorStop(0, "#c9d3d4"); grad.addColorStop(.35, "#f7fbfb"); grad.addColorStop(.6, "#dfe8e9"); grad.addColorStop(1, "#8fa1a3");
+      }
+      g.fillStyle = grad;
+      g.beginPath();
+      g.moveTo(x, cy-rad); g.quadraticCurveTo(x+bw*1.3, cy, x, cy+rad);
+      g.lineTo(x+bw, cy+rad); g.quadraticCurveTo(x+bw*2.1, cy, x+bw, cy-rad);
+      g.closePath(); g.fill();
+      // arête lumineuse
+      g.strokeStyle = isDirty ? "rgba(160,150,110,.35)" : "rgba(255,255,255,.9)";
+      g.lineWidth = 1;
+      g.beginPath(); g.moveTo(x+bw, cy-rad); g.quadraticCurveTo(x+bw*2.1, cy, x+bw, cy+rad); g.stroke();
+    }
+    // anneaux de soutien
+    g.fillStyle = isDirty ? "#4f4731" : "#b8c6c8";
+    for (const f of [.25,.5,.75]){ const x = cx0 + (cx1-cx0)*f; g.fillRect(x-3, cy-rad, 6, rad*2); }
+    // ombrage cylindrique
+    const shade = g.createLinearGradient(0, cy-rad, 0, cy+rad);
+    shade.addColorStop(0, "rgba(0,0,0,.35)"); shade.addColorStop(.3, "rgba(0,0,0,0)"); shade.addColorStop(.7, "rgba(0,0,0,0)"); shade.addColorStop(1, "rgba(0,0,0,.45)");
+    g.fillStyle = shade; g.fillRect(cx0, cy-rad, cx1-cx0, rad*2);
+
+    if (isDirty){
+      // feutre de poussière sur le haut des pales
+      for (let i = 0; i < w*2.2; i++){
+        const x = cx0 + r()*(cx1-cx0), y = cy - rad + Math.pow(r(),2)*rad*1.6;
+        g.fillStyle = `rgba(${150+r()*40|0},${140+r()*30|0},${110+r()*20|0},${.25+r()*.35})`;
+        g.fillRect(x, y, 1+r()*3, 1+r()*2);
+      }
+      // colonies de moisissure
+      for (let k = 0; k < 26; k++){
+        const bx = cx0 + r()*(cx1-cx0), by = cy - rad*.9 + r()*rad*1.8, br = rad*(.05+r()*.14);
+        for (let i = 0; i < 70; i++){
+          const a = r()*Math.PI*2, d = Math.pow(r(),1.6)*br;
+          g.fillStyle = `rgba(${15+r()*20|0},${18+r()*18|0},${12+r()*12|0},${.45+r()*.5})`;
+          g.beginPath(); g.arc(bx+Math.cos(a)*d, by+Math.sin(a)*d*.8, .6+r()*2.2, 0, Math.PI*2); g.fill();
+        }
+      }
+      // voile jaunâtre
+      g.fillStyle = "rgba(90,75,30,.18)"; g.fillRect(cx0, cy-rad, cx1-cx0, rad*2);
+    }
+    // bouts du cylindre (ellipses)
+    for (const [x, s] of [[cx0, -1],[cx1, 1]]){
+      g.fillStyle = isDirty ? "#3a3423" : "#9eb0b2";
+      g.beginPath(); g.ellipse(x, cy, ry, rad, 0, 0, Math.PI*2); g.fill();
+      g.fillStyle = isDirty ? "#221e14" : "#5f7274";
+      g.beginPath(); g.ellipse(x, cy, ry*.35, rad*.2, 0, 0, Math.PI*2); g.fill();
+    }
+    // axe moteur
+    g.fillStyle = isDirty ? "#2a2519" : "#6c7c7e";
+    g.fillRect(cx1+ry*.3, cy-rad*.07, w*.06, rad*.14);
+  }
+
+  function build(){
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = stage.clientWidth; H = stage.clientHeight;
+    cv.width = W*dpr; cv.height = H*dpr;
+    const mk = d => { const c = document.createElement("canvas"); c.width = W*dpr; c.height = H*dpr; c.getContext("2d").scale(dpr,dpr); drawTurbine(c, W, H, d); return c; };
+    dirty = mk(true); clean = mk(false);
+    paint();
+  }
+  function paint(){
+    const s = range.value/100, x = Math.round(cv.width*s);
+    ctx.clearRect(0,0,cv.width,cv.height);
+    ctx.drawImage(dirty, 0, 0);
+    if (x < cv.width) ctx.drawImage(clean, x, 0, cv.width-x, cv.height, x, 0, cv.width-x, cv.height);
+    handle.style.left = (s*100) + "%";
+  }
+  range.addEventListener("input", paint);
+  new ResizeObserver(build).observe(stage);
+  matchMedia("(prefers-color-scheme: dark)").addEventListener("change", build);
+  new MutationObserver(build).observe(document.documentElement, {attributes:true, attributeFilter:["data-theme"]});
+})();
+</script>
