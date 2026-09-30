@@ -41,7 +41,8 @@ Site vitrine pour l'entreprise de nettoyage de climatiseurs muraux et de thermop
 - [ ] Vrai téléphone et courriel (514 555-0142 est fictif)
 - [ ] Heures d'ouverture et villes desservies réelles
 - [ ] Où envoyer les demandes de réservation (courriel ou outil de réservation) : le formulaire n'envoie rien pour l'instant
-- [ ] Mise en ligne (Netlify est connecté)
+- [x] Aperçu en ligne sur Netlify : https://thermo-propre-apercu.netlify.app (projet « thermo-propre-apercu », non référencé par Google)
+- [ ] Mise en ligne finale : nom de domaine, retirer le « noindex », renommer le projet selon la marque choisie
 - [ ] Confirmer les engagements affichés : rappel dans la journée, pas de vendeur, rapport envoyé le jour même, seuil de 10 unités pour la soumission de volume
 - [ ] Définir l'offre de lancement (durée, conditions) et l'outil qui produira le rapport d'entretien (ex. Jobber)
 
