@@ -1,0 +1,4 @@
+# Fins de ligne des lanceurs : Windows exige CRLF, Unix exige LF.
+*.bat  text eol=crlf
+*.command text eol=lf
+*.sh   text eol=lf
